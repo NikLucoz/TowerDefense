@@ -1,0 +1,55 @@
+[gd_scene load_steps=9 format=3 uid="uid://c4y8h0nc6emlk"]
+
+[ext_resource type="Script" path="res://Scripts/Nodes/tree.gd" id="1_ftlwa"]
+[ext_resource type="PackedScene" uid="uid://dw417dcml3bda" path="res://Scenes/Utils/damage_handler.tscn" id="2_w6lx0"]
+[ext_resource type="Script" path="res://Scripts/Manager_Handlers/damageable_stats.gd" id="3_n0vxb"]
+[ext_resource type="Texture2D" uid="uid://ctrthojplai4j" path="res://Assets/Tilesets/Tiny Swords/Resources/Trees/Tree.png" id="4_wwy2p"]
+
+[sub_resource type="Resource" id="Resource_8s1t8"]
+script = ExtResource("3_n0vxb")
+startingHealth = 500.0
+defense = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbyyf"]
+atlas = ExtResource("4_wwy2p")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eol27"]
+atlas = ExtResource("4_wwy2p")
+region = Rect2(0, 384, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y88k6"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cbyyf")
+}],
+"loop": false,
+"name": &"Chopped",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eol27")
+}],
+"loop": false,
+"name": &"FullChopped",
+"speed": 5.0
+}]
+
+[node name="Tree" type="Node2D" groups=["Tree"]]
+z_index = 1
+y_sort_enabled = true
+script = ExtResource("1_ftlwa")
+
+[node name="DamageHandler" parent="." instance=ExtResource("2_w6lx0")]
+hasDestroyedOverride = true
+damageableStats = SubResource("Resource_8s1t8")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_y88k6")
+animation = &"Chopped"
+offset = Vector2(0, -40)
+
+[connection signal="destroyedOverride" from="DamageHandler" to="." method="_on_damage_handler_destroyed_override"]

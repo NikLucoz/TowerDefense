@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://dxlrt6jh3ynxl"]
+
+[ext_resource type="Script" path="res://Scripts/Nodes/forage.gd" id="1_p2mkm"]
+[ext_resource type="PackedScene" uid="uid://dw417dcml3bda" path="res://Scenes/Utils/damage_handler.tscn" id="2_stshk"]
+[ext_resource type="Script" path="res://Scripts/Manager_Handlers/damageable_stats.gd" id="3_hvpqt"]
+
+[sub_resource type="Resource" id="Resource_thu0g"]
+script = ExtResource("3_hvpqt")
+startingHealth = 100.0
+defense = 0.0
+
+[node name="Forage" type="Node2D" groups=["Forage"]]
+z_index = 1
+script = ExtResource("1_p2mkm")
+drop_mushroom_max_amount = 3
+drop_berry_max_amount = 7
+berry_reset_seconds = 20
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="DamageHandler" parent="." instance=ExtResource("2_stshk")]
+hasDestroyedOverride = true
+damageableStats = SubResource("Resource_thu0g")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[connection signal="destroyedOverride" from="DamageHandler" to="." method="_on_damage_handler_destroyed_override"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

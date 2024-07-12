@@ -1,0 +1,164 @@
+[gd_scene load_steps=5 format=3 uid="uid://0skk5qop0mt0"]
+
+[ext_resource type="Script" path="res://Scripts/Manager_Handlers/UI/resource_action_manager.gd" id="1_nigpe"]
+[ext_resource type="Texture2D" uid="uid://cpjqwvoncd1u0" path="res://Assets/Tilesets/Tiny Swords/Resources/Resources/W_Idle_(NoShadow).png" id="2_roymh"]
+[ext_resource type="Texture2D" uid="uid://c8m3451qkpe60" path="res://Assets/Tilesets/Tiny Swords/Resources/Resources/G_Idle_(NoShadow).png" id="3_tm75h"]
+[ext_resource type="Texture2D" uid="uid://cs0jllnunn3jw" path="res://Assets/Tilesets/Tiny Swords/Resources/Resources/M_Idle_(NoShadow).png" id="4_b2w6h"]
+
+[node name="InGameUI" type="CanvasLayer"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_nigpe")
+
+[node name="ResourceContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 18.0
+offset_right = 830.0
+offset_bottom = 85.0
+
+[node name="WoodPanel" type="Panel" parent="Control/ResourceContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control/ResourceContainer/WoodPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.073
+anchor_top = 0.317
+anchor_right = 0.4
+anchor_bottom = 0.761
+offset_left = -46.6
+offset_top = -72.945
+offset_right = 28.0
+offset_bottom = 29.315
+grow_vertical = 2
+texture = ExtResource("2_roymh")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Control/ResourceContainer/WoodPanel"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 23.0
+offset_right = 178.0
+offset_bottom = 52.0
+text = "0000000000"
+vertical_alignment = 1
+
+[node name="GoldPanel" type="Panel" parent="Control/ResourceContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control/ResourceContainer/GoldPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.073
+anchor_top = 0.317
+anchor_right = 0.4
+anchor_bottom = 0.761
+offset_left = -47.6
+offset_top = -53.945
+offset_right = 11.0
+offset_bottom = 32.315
+grow_vertical = 2
+texture = ExtResource("3_tm75h")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Control/ResourceContainer/GoldPanel"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 23.0
+offset_right = 178.0
+offset_bottom = 52.0
+text = "0000000000"
+vertical_alignment = 1
+
+[node name="FoodPanel" type="Panel" parent="Control/ResourceContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control/ResourceContainer/FoodPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.073
+anchor_top = 0.317
+anchor_right = 0.4
+anchor_bottom = 0.761
+offset_left = -47.6
+offset_top = -53.945
+offset_right = 11.0
+offset_bottom = 32.315
+grow_vertical = 2
+texture = ExtResource("4_b2w6h")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Control/ResourceContainer/FoodPanel"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 23.0
+offset_right = 178.0
+offset_bottom = 52.0
+text = "0000000000"
+vertical_alignment = 1
+
+[node name="ActionPanel" type="Panel" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.014
+anchor_top = 0.66
+anchor_right = 0.352
+anchor_bottom = 0.971
+offset_left = 0.0799999
+offset_top = -0.200012
+offset_right = -0.560028
+offset_bottom = -0.120056
+
+[node name="SpawnLumberJackButton" type="Button" parent="Control/ActionPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.056
+anchor_top = 0.112
+anchor_right = 0.414
+anchor_bottom = 0.286
+offset_left = -0.192001
+offset_top = -0.0880013
+offset_right = -46.848
+offset_bottom = -0.064003
+text = "Spawn LumberJack"
+
+[node name="SpawnForagerButton2" type="Button" parent="Control/ActionPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.056
+anchor_top = 0.112
+anchor_right = 0.414
+anchor_bottom = 0.286
+offset_left = -0.192001
+offset_top = 44.912
+offset_right = -31.848
+offset_bottom = 44.936
+text = "Spawn Forager"
+
+[node name="ResetEntitiesButton" type="Button" parent="Control/ActionPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.056
+anchor_top = 0.313
+anchor_right = 0.412
+anchor_bottom = 0.487
+offset_left = -0.192001
+offset_top = 44.888
+offset_right = 1.01601
+offset_bottom = 44.912
+text = "Reset Entities"
+
+[connection signal="pressed" from="Control/ActionPanel/SpawnLumberJackButton" to="Control" method="_on_spawn_lumberJack_button_pressed"]
+[connection signal="pressed" from="Control/ActionPanel/SpawnForagerButton2" to="Control" method="_on_spawn_forager_button_2_pressed"]
+[connection signal="pressed" from="Control/ActionPanel/ResetEntitiesButton" to="Control" method="_on_reset_entities_button_pressed"]

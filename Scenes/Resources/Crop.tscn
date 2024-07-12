@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://c43rt8v80p7gw"]
+
+[ext_resource type="Script" path="res://Scripts/Nodes/crop.gd" id="1_mk3qv"]
+[ext_resource type="SpriteFrames" uid="uid://bjmrhprjsus5u" path="res://Assets/Forages/lettuce_sprite_frames.tres" id="2_a3sfa"]
+[ext_resource type="PackedScene" uid="uid://dw417dcml3bda" path="res://Scenes/Utils/damage_handler.tscn" id="3_khu67"]
+[ext_resource type="Script" path="res://Scripts/Manager_Handlers/damageable_stats.gd" id="4_p0gv7"]
+
+[sub_resource type="Resource" id="Resource_gjwnf"]
+script = ExtResource("4_p0gv7")
+startingHealth = 5.0
+defense = 0.0
+
+[node name="Crop" type="Node2D"]
+scale = Vector2(1.5, 1.5)
+script = ExtResource("1_mk3qv")
+sprite_frames = ExtResource("2_a3sfa")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_a3sfa")
+
+[node name="DamageHandler" parent="." instance=ExtResource("3_khu67")]
+hasDestroyedOverride = true
+damageableStats = SubResource("Resource_gjwnf")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[connection signal="destroyedOverride" from="DamageHandler" to="." method="_on_damage_handler_destroyed_override"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

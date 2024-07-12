@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dw417dcml3bda"]
+
+[ext_resource type="Script" path="res://Scripts/Manager_Handlers/damage_handler.gd" id="1_1afl8"]
+
+[node name="DamageHandler" type="Node"]
+script = ExtResource("1_1afl8")

@@ -1,0 +1,32 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://bjmrhprjsus5u"]
+
+[ext_resource type="Texture2D" uid="uid://wf1qk17ghuqg" path="res://Assets/Forages/lettuce.png" id="1_i1ktx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ehtmf"]
+atlas = ExtResource("1_i1ktx")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_piud1"]
+atlas = ExtResource("1_i1ktx")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_achdc"]
+atlas = ExtResource("1_i1ktx")
+region = Rect2(128, 0, 64, 64)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ehtmf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_piud1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_achdc")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]

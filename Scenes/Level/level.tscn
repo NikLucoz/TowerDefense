@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://d2xxrtdfqg1d"]
+
+[ext_resource type="Texture2D" uid="uid://bau4grxwvsxdf" path="res://Assets/Tilesets/tileset.png" id="1_a6ggb"]
+[ext_resource type="Script" path="res://Scripts/Map/RandomMapGenerator.gd" id="3_0clf3"]
+[ext_resource type="Script" path="res://Scripts/Manager_Handlers/camera_manager.gd" id="3_vufl0"]
+[ext_resource type="PackedScene" uid="uid://0skk5qop0mt0" path="res://Scenes/UI/InGameUI.tscn" id="6_bsmxy"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bqih0"]
+texture = ExtResource("1_a6ggb")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_6w5gc"]
+tile_size = Vector2i(64, 64)
+terrain_set_0/mode = 0
+terrain_set_0/terrain_0/name = "Grass"
+terrain_set_0/terrain_0/color = Color(0.279038, 0.436588, 0.143352, 1)
+sources/0 = SubResource("TileSetAtlasSource_bqih0")
+tile_proxies/coords_level = [[0, Vector2i(0, 0)], [13, Vector2i(0, 0)], [0, Vector2i(1, 0)], [13, Vector2i(1, 0)], [0, Vector2i(2, 0)], [13, Vector2i(2, 0)], [0, Vector2i(3, 0)], [13, Vector2i(3, 0)], [0, Vector2i(4, 0)], [13, Vector2i(4, 0)], [0, Vector2i(5, 0)], [13, Vector2i(5, 0)], [0, Vector2i(6, 0)], [13, Vector2i(6, 0)], [0, Vector2i(7, 0)], [13, Vector2i(7, 0)], [0, Vector2i(8, 0)], [13, Vector2i(8, 0)], [0, Vector2i(9, 0)], [13, Vector2i(9, 0)], [0, Vector2i(10, 0)], [13, Vector2i(10, 0)], [2, Vector2i(0, 0)], [12, Vector2i(0, 0)], [3, Vector2i(0, 0)], [12, Vector2i(1, 0)], [3, Vector2i(1, 0)], [12, Vector2i(2, 0)], [3, Vector2i(2, 0)], [12, Vector2i(3, 0)], [4, Vector2i(0, 0)], [12, Vector2i(4, 0)], [5, Vector2i(0, 0)], [12, Vector2i(5, 0)], [6, Vector2i(0, 0)], [12, Vector2i(6, 0)], [7, Vector2i(0, 0)], [12, Vector2i(7, 0)], [8, Vector2i(0, 0)], [12, Vector2i(8, 0)], [9, Vector2i(0, 0)], [12, Vector2i(9, 0)], [12, Vector2i(0, 0)], [13, Vector2i(11, 0)], [14, Vector2i(0, 0)], [23, Vector2i(0, 0)], [14, Vector2i(1, 0)], [23, Vector2i(1, 0)], [14, Vector2i(2, 0)], [23, Vector2i(2, 0)], [15, Vector2i(0, 0)], [23, Vector2i(3, 0)], [16, Vector2i(0, 0)], [23, Vector2i(4, 0)], [17, Vector2i(0, 0)], [23, Vector2i(5, 0)], [18, Vector2i(0, 0)], [23, Vector2i(6, 0)], [19, Vector2i(0, 0)], [23, Vector2i(7, 0)], [20, Vector2i(0, 0)], [23, Vector2i(8, 0)], [21, Vector2i(0, 0)], [23, Vector2i(9, 0)], [22, Vector2i(0, 0)], [23, Vector2i(10, 0)], [24, Vector2i(0, 0)], [33, Vector2i(0, 0)], [25, Vector2i(0, 0)], [33, Vector2i(1, 0)], [26, Vector2i(0, 0)], [33, Vector2i(2, 0)], [26, Vector2i(1, 0)], [33, Vector2i(3, 0)], [26, Vector2i(2, 0)], [33, Vector2i(4, 0)], [27, Vector2i(0, 0)], [33, Vector2i(5, 0)], [28, Vector2i(0, 0)], [33, Vector2i(6, 0)], [29, Vector2i(0, 0)], [33, Vector2i(7, 0)], [30, Vector2i(0, 0)], [33, Vector2i(8, 0)], [31, Vector2i(0, 0)], [33, Vector2i(9, 0)], [32, Vector2i(0, 0)], [33, Vector2i(10, 0)]]
+
+[node name="Level" type="Node2D"]
+y_sort_enabled = true
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_6w5gc")
+format = 2
+layer_0/name = "Ground"
+layer_1/name = "Decorations"
+layer_1/tile_data = PackedInt32Array()
+script = ExtResource("3_0clf3")
+tree_spawn_rate = 15
+decoration_spawn_rate = 10
+
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_smoothed = true
+script = ExtResource("3_vufl0")
+
+[node name="InGameUI" parent="." instance=ExtResource("6_bsmxy")]
+
+[node name="Trees" type="Node" parent="."]

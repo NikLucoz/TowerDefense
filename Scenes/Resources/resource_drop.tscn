@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://bxj80ifw6sgri"]
+
+[ext_resource type="Script" path="res://Scripts/Nodes/resource_drop.gd" id="1_66my7"]
+[ext_resource type="Texture2D" uid="uid://xaasym4yo633" path="res://Assets/Tilesets/Tiny Swords/Resources/Resources/W_Idle.png" id="2_ah3sd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1vxpp"]
+radius = 42.7551
+
+[sub_resource type="Gradient" id="Gradient_x1l3p"]
+interpolation_mode = 1
+colors = PackedColorArray(0.27451, 0.27451, 0.27451, 0.286275, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vbl3d"]
+gradient = SubResource("Gradient_x1l3p")
+fill = 1
+fill_from = Vector2(0.504587, 0.5)
+fill_to = Vector2(0.862385, 0.238532)
+
+[node name="ResourceDrop" type="Area2D"]
+z_index = 5
+y_sort_enabled = true
+script = ExtResource("1_66my7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["ResourceDrop"]]
+visible = false
+shape = SubResource("CircleShape2D_1vxpp")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(0, 6)
+rotation = -3.14159
+scale = Vector2(1.02704, -0.770987)
+texture = SubResource("GradientTexture2D_vbl3d")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ah3sd")
+offset = Vector2(-1.055, -21.955)
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
