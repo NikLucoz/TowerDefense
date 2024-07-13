@@ -183,3 +183,4 @@ script = ExtResource("5_r510f")
 
 [node name="WorkingState" type="Node" parent="StateMachine"]
 script = ExtResource("6_52855")
+harvesting_damage = 3

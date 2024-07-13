@@ -10,25 +10,17 @@ script = ExtResource("3_n0vxb")
 startingHealth = 500.0
 defense = 0.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_cbyyf"]
-atlas = ExtResource("4_wwy2p")
-region = Rect2(0, 0, 192, 192)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_eol27"]
 atlas = ExtResource("4_wwy2p")
 region = Rect2(0, 384, 192, 192)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbyyf"]
+atlas = ExtResource("4_wwy2p")
+region = Rect2(0, 0, 192, 192)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_y88k6"]
 resource_local_to_scene = true
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cbyyf")
-}],
-"loop": false,
-"name": &"Chopped",
-"speed": 10.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_eol27")
@@ -36,6 +28,14 @@ animations = [{
 "loop": false,
 "name": &"FullChopped",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cbyyf")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
 }]
 
 [node name="Tree" type="Node2D" groups=["Tree"]]
@@ -49,7 +49,6 @@ damageableStats = SubResource("Resource_8s1t8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_y88k6")
-animation = &"Chopped"
 offset = Vector2(0, -40)
 
 [connection signal="destroyedOverride" from="DamageHandler" to="." method="_on_damage_handler_destroyed_override"]

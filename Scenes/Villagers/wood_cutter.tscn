@@ -221,3 +221,4 @@ script = ExtResource("5_jsfei")
 
 [node name="WorkingState" type="Node" parent="StateMachine"]
 script = ExtResource("5_3cwet")
+cutting_damage = 4

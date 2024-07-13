@@ -1,11 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://0skk5qop0mt0"]
+[gd_scene load_steps=10 format=3 uid="uid://0skk5qop0mt0"]
 
+[ext_resource type="Theme" uid="uid://bg8xeccqgk1g6" path="res://Assets/Theme/default_theme.tres" id="1_bimyx"]
 [ext_resource type="Script" path="res://Scripts/Manager_Handlers/UI/resource_action_manager.gd" id="1_nigpe"]
 [ext_resource type="Texture2D" uid="uid://cpjqwvoncd1u0" path="res://Assets/Tilesets/Tiny Swords/Resources/Resources/W_Idle_(NoShadow).png" id="2_roymh"]
 [ext_resource type="Texture2D" uid="uid://c8m3451qkpe60" path="res://Assets/Tilesets/Tiny Swords/Resources/Resources/G_Idle_(NoShadow).png" id="3_tm75h"]
 [ext_resource type="Texture2D" uid="uid://cs0jllnunn3jw" path="res://Assets/Tilesets/Tiny Swords/Resources/Resources/M_Idle_(NoShadow).png" id="4_b2w6h"]
+[ext_resource type="Texture2D" uid="uid://bktsv254d5jie" path="res://Assets/UI/forager_ui.png" id="6_80rxq"]
+[ext_resource type="Script" path="res://Scripts/UI/ActionPanel.gd" id="6_xlk50"]
+[ext_resource type="Texture2D" uid="uid://w3m5ait77plq" path="res://Assets/UI/woodcutter_ui.png" id="8_qinfu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v3og3"]
 
 [node name="InGameUI" type="CanvasLayer"]
+layer = -1
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -15,20 +22,38 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+theme = ExtResource("1_bimyx")
 script = ExtResource("1_nigpe")
 
-[node name="ResourceContainer" type="HBoxContainer" parent="Control"]
-layout_mode = 0
-offset_left = 18.0
-offset_top = 18.0
-offset_right = 830.0
-offset_bottom = 85.0
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
 
-[node name="WoodPanel" type="Panel" parent="Control/ResourceContainer"]
+[node name="Container" type="Panel" parent="Control/MarginContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxEmpty_v3og3")
+
+[node name="ResourceContainer" type="HBoxContainer" parent="Control/MarginContainer/Container"]
+layout_mode = 0
+offset_right = 608.0
+offset_bottom = 67.0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+
+[node name="WoodPanel" type="Panel" parent="Control/MarginContainer/Container/ResourceContainer"]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Control/ResourceContainer/WoodPanel"]
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Container/ResourceContainer/WoodPanel"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.073
@@ -43,7 +68,7 @@ grow_vertical = 2
 texture = ExtResource("2_roymh")
 expand_mode = 1
 
-[node name="Label" type="Label" parent="Control/ResourceContainer/WoodPanel"]
+[node name="Label" type="Label" parent="Control/MarginContainer/Container/ResourceContainer/WoodPanel"]
 layout_mode = 0
 offset_left = 75.0
 offset_top = 23.0
@@ -52,11 +77,11 @@ offset_bottom = 52.0
 text = "0000000000"
 vertical_alignment = 1
 
-[node name="GoldPanel" type="Panel" parent="Control/ResourceContainer"]
+[node name="GoldPanel" type="Panel" parent="Control/MarginContainer/Container/ResourceContainer"]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Control/ResourceContainer/GoldPanel"]
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Container/ResourceContainer/GoldPanel"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.073
@@ -71,7 +96,7 @@ grow_vertical = 2
 texture = ExtResource("3_tm75h")
 expand_mode = 1
 
-[node name="Label" type="Label" parent="Control/ResourceContainer/GoldPanel"]
+[node name="Label" type="Label" parent="Control/MarginContainer/Container/ResourceContainer/GoldPanel"]
 layout_mode = 0
 offset_left = 75.0
 offset_top = 23.0
@@ -80,11 +105,11 @@ offset_bottom = 52.0
 text = "0000000000"
 vertical_alignment = 1
 
-[node name="FoodPanel" type="Panel" parent="Control/ResourceContainer"]
+[node name="FoodPanel" type="Panel" parent="Control/MarginContainer/Container/ResourceContainer"]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Control/ResourceContainer/FoodPanel"]
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Container/ResourceContainer/FoodPanel"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.073
@@ -99,7 +124,7 @@ grow_vertical = 2
 texture = ExtResource("4_b2w6h")
 expand_mode = 1
 
-[node name="Label" type="Label" parent="Control/ResourceContainer/FoodPanel"]
+[node name="Label" type="Label" parent="Control/MarginContainer/Container/ResourceContainer/FoodPanel"]
 layout_mode = 0
 offset_left = 75.0
 offset_top = 23.0
@@ -108,19 +133,17 @@ offset_bottom = 52.0
 text = "0000000000"
 vertical_alignment = 1
 
-[node name="ActionPanel" type="Panel" parent="Control"]
+[node name="DebugActionPanel" type="Panel" parent="Control/MarginContainer/Container"]
+custom_minimum_size = Vector2(100, 200)
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.014
-anchor_top = 0.66
-anchor_right = 0.352
-anchor_bottom = 0.971
-offset_left = 0.0799999
-offset_top = -0.200012
-offset_right = -0.560028
-offset_bottom = -0.120056
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -346.0
+offset_bottom = 200.0
+grow_horizontal = 0
 
-[node name="SpawnLumberJackButton" type="Button" parent="Control/ActionPanel"]
+[node name="SpawnLumberJackButton" type="Button" parent="Control/MarginContainer/Container/DebugActionPanel"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.056
@@ -133,7 +156,7 @@ offset_right = -46.848
 offset_bottom = -0.064003
 text = "Spawn LumberJack"
 
-[node name="SpawnForagerButton2" type="Button" parent="Control/ActionPanel"]
+[node name="SpawnForagerButton2" type="Button" parent="Control/MarginContainer/Container/DebugActionPanel"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.056
@@ -146,19 +169,153 @@ offset_right = -31.848
 offset_bottom = 44.936
 text = "Spawn Forager"
 
-[node name="ResetEntitiesButton" type="Button" parent="Control/ActionPanel"]
+[node name="ResetEntitiesButton" type="Button" parent="Control/MarginContainer/Container/DebugActionPanel"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.056
-anchor_top = 0.313
-anchor_right = 0.412
-anchor_bottom = 0.487
-offset_left = -0.192001
-offset_top = 44.888
-offset_right = 1.01601
-offset_bottom = 44.912
+anchor_top = 0.547
+anchor_right = 0.415
+anchor_bottom = 0.722
+offset_left = -0.192003
+offset_top = 0.0879898
+offset_right = -0.0220032
+offset_bottom = -0.0880127
 text = "Reset Entities"
 
-[connection signal="pressed" from="Control/ActionPanel/SpawnLumberJackButton" to="Control" method="_on_spawn_lumberJack_button_pressed"]
-[connection signal="pressed" from="Control/ActionPanel/SpawnForagerButton2" to="Control" method="_on_spawn_forager_button_2_pressed"]
-[connection signal="pressed" from="Control/ActionPanel/ResetEntitiesButton" to="Control" method="_on_reset_entities_button_pressed"]
+[node name="ActionPanel" type="TabContainer" parent="Control/MarginContainer/Container"]
+layout_mode = 0
+offset_top = 444.0
+offset_right = 439.0
+offset_bottom = 684.0
+script = ExtResource("6_xlk50")
+
+[node name="Villagers" type="TabBar" parent="Control/MarginContainer/Container/ActionPanel"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/Container/ActionPanel/Villagers"]
+layout_mode = 0
+offset_right = 439.0
+offset_bottom = 206.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Control" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer"]
+layout_mode = 2
+
+[node name="ForagerControl" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control"]
+anchors_preset = 0
+offset_right = 301.0
+offset_bottom = 40.0
+
+[node name="ForagerBuyButton" type="Button" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.578
+anchor_bottom = 1.0
+offset_right = 0.0220032
+mouse_default_cursor_shape = 2
+text = "Forager"
+icon = ExtResource("6_80rxq")
+alignment = 0
+
+[node name="Control" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl"]
+anchors_preset = 0
+offset_left = 183.0
+offset_top = 47.0
+offset_right = 265.0
+offset_bottom = 87.0
+
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.733
+anchor_top = 0.235
+anchor_right = 0.827
+anchor_bottom = 0.775
+offset_left = -45.106
+offset_top = -30.4
+offset_right = 20.134
+offset_bottom = 17.0
+grow_vertical = 2
+texture = ExtResource("4_b2w6h")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl/Control"]
+layout_mode = 0
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 31.0
+text = "50x"
+
+[node name="WoodcutterControl" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control"]
+anchors_preset = 0
+offset_top = 47.0
+offset_right = 285.0
+offset_bottom = 87.0
+
+[node name="WoodcutterBuyButton" type="Button" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.253
+anchor_right = 0.415
+anchor_bottom = 0.478
+offset_top = -10.12
+offset_right = 55.725
+offset_bottom = 20.88
+mouse_default_cursor_shape = 2
+text = "Woodcutter"
+icon = ExtResource("8_qinfu")
+alignment = 0
+
+[node name="Control2" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl"]
+anchors_preset = 0
+offset_left = 183.0
+offset_top = -47.0
+offset_right = 265.0
+offset_bottom = -7.0
+
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl/Control2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.733
+anchor_top = 0.235
+anchor_right = 0.827
+anchor_bottom = 0.775
+offset_left = -45.106
+offset_top = -30.4
+offset_right = 20.134
+offset_bottom = 17.0
+grow_vertical = 2
+texture = ExtResource("4_b2w6h")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl/Control2"]
+layout_mode = 0
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 31.0
+text = "30x"
+
+[node name="Buildings" type="TabBar" parent="Control/MarginContainer/Container/ActionPanel"]
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/Container/ActionPanel/Buildings"]
+layout_mode = 0
+offset_right = 439.0
+offset_bottom = 206.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Control" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Buildings/MarginContainer"]
+layout_mode = 2
+
+[connection signal="pressed" from="Control/MarginContainer/Container/DebugActionPanel/SpawnLumberJackButton" to="Control" method="_on_spawn_lumberJack_button_pressed"]
+[connection signal="pressed" from="Control/MarginContainer/Container/DebugActionPanel/SpawnForagerButton2" to="Control" method="_on_spawn_forager_button_2_pressed"]
+[connection signal="pressed" from="Control/MarginContainer/Container/DebugActionPanel/ResetEntitiesButton" to="Control" method="_on_reset_entities_button_pressed"]
+[connection signal="pressed" from="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl/ForagerBuyButton" to="Control/MarginContainer/Container/ActionPanel" method="_on_forager_buy_button_pressed"]
+[connection signal="pressed" from="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl/WoodcutterBuyButton" to="Control/MarginContainer/Container/ActionPanel" method="_on_woodcutter_buy_button_pressed"]

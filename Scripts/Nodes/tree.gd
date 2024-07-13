@@ -5,14 +5,21 @@ const RESOURCE_DROP = preload("res://Scenes/Resources/resource_drop.tscn")
 @onready var animated_sprite_2d = $AnimatedSprite2D
 
 @export var drop_max_amount: int = 6
+@export var time_to_reset: int = 300
 var chopped: bool = false
+var timer: Timer
 
 func _on_damage_handler_destroyed_override():
-	print("tree chopped")
-	
 	chopped = true
 	animated_sprite_2d.play("FullChopped")
 	GameManager.remove_tree(self)
+	
+	timer = Timer.new()
+	timer.one_shot = true
+	timer.wait_time = time_to_reset
+	add_child(timer)
+	timer.connect("timeout", _on_timer_timeout)
+	timer.start()
 	
 	for i in range(randi_range(1, drop_max_amount)):
 		var instance = RESOURCE_DROP.instantiate()
@@ -24,3 +31,15 @@ func _on_damage_handler_destroyed_override():
 		instance.position = global_position + drop_position
 		get_parent().get_parent().add_child(instance)
 		GameManager.add_entity(instance)
+
+func _on_timer_timeout():
+	print("timer tree")
+	var rng_value = randi_range(1, 100)
+	if rng_value < 10:
+		print("respawn tree")
+		chopped = false
+		animated_sprite_2d.play("default")
+		GameManager.add_tree(self)
+		remove_child(timer)
+	else:
+		queue_free()

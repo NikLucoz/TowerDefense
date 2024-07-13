@@ -13,8 +13,7 @@ defense = 0.0
 z_index = 1
 script = ExtResource("1_p2mkm")
 drop_mushroom_max_amount = 3
-drop_berry_max_amount = 7
-berry_reset_seconds = 20
+drop_berry_max_amount = 5
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://balm0gpjpw48q"
-path="res://.godot/imported/Castle_Red.png-d387fe65613eb0769ad6dd8c98c8f1ec.ctex"
+uid="uid://bktsv254d5jie"
+path="res://.godot/imported/forager_ui.png-5fe6ae5414fd7b0977a61f7f7f4ab95a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Tilesets/Tiny Swords/Factions/Knights/Buildings/Castle/Castle_Red.png"
-dest_files=["res://.godot/imported/Castle_Red.png-d387fe65613eb0769ad6dd8c98c8f1ec.ctex"]
+source_file="res://Assets/UI/forager_ui.png"
+dest_files=["res://.godot/imported/forager_ui.png-5fe6ae5414fd7b0977a61f7f7f4ab95a.ctex"]
 
 [params]
 
