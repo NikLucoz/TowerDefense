@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4r6kafb7nf01"
-path="res://.godot/imported/mushrooms.png-9bb30e81a879678bc4cb12b67ba26385.ctex"
+uid="uid://c5stv5frti5wm"
+path="res://.godot/imported/no_berry_bush.png-2fa140c6eb077d7e8b540368e83b4f9c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Forages/mushrooms.png"
-dest_files=["res://.godot/imported/mushrooms.png-9bb30e81a879678bc4cb12b67ba26385.ctex"]
+source_file="res://Assets/Resources/Forages/no_berry_bush.png"
+dest_files=["res://.godot/imported/no_berry_bush.png-2fa140c6eb077d7e8b540368e83b4f9c.ctex"]
 
 [params]
 

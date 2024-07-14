@@ -1,7 +1,7 @@
 class_name Forage extends Node2D
-const BERRY_BUSH = preload("res://Assets/Forages/berry_bush.png")
-const NO_BERRY_BUSH = preload("res://Assets/Forages/no_berry_bush.png")
-const MUSHROOM = preload("res://Assets/Forages/mushrooms.png")
+const BERRY_BUSH = preload("res://Assets/Resources/Forages/berry_bush.png")
+const NO_BERRY_BUSH = preload("res://Assets/Resources/Forages/no_berry_bush.png")
+const MUSHROOM = preload("res://Assets/Resources/Forages/mushrooms.png")
 const RESOURCE_DROP = preload("res://Scenes/Resources/resource_drop.tscn")
 enum forage_type {BERRY, MUSHROOM}
 

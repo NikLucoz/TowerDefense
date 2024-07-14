@@ -1,6 +1,6 @@
 [gd_scene load_steps=27 format=3 uid="uid://dh6lphjf3etj"]
 
-[ext_resource type="Script" path="res://Scripts/Nodes/forager.gd" id="1_nihwr"]
+[ext_resource type="Script" path="res://Scripts/Nodes/resource_villager.gd" id="1_weopj"]
 [ext_resource type="Texture2D" uid="uid://da0lqmqexoxvx" path="res://Assets/Tilesets/Tiny Swords/Factions/Knights/Troops/Pawn/Blue/Pawn_Blue.png" id="2_f8ler"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/state_machine.gd" id="3_lan47"]
 [ext_resource type="Script" path="res://Scripts/States/villager_idle_state.gd" id="4_mprj0"]
@@ -157,7 +157,9 @@ radius = 27.0
 [node name="Forager" type="CharacterBody2D"]
 z_index = 1
 y_sort_enabled = true
-script = ExtResource("1_nihwr")
+script = ExtResource("1_weopj")
+target_resource_type = 1
+max_searching_target_number = 5
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
@@ -176,11 +178,9 @@ CURRENT_STATE = NodePath("IdleState")
 
 [node name="IdleState" type="Node" parent="StateMachine"]
 script = ExtResource("4_mprj0")
-target_resource_type = 1
 
 [node name="ReachState" type="Node" parent="StateMachine"]
 script = ExtResource("5_r510f")
 
 [node name="WorkingState" type="Node" parent="StateMachine"]
 script = ExtResource("6_52855")
-harvesting_damage = 3

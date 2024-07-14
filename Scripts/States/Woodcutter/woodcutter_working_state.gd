@@ -1,8 +1,9 @@
 class_name VillagerCuttingState extends VillagerState
 
-@export var cutting_damage = 20
+var cutting_damage: int
 
 func enter() -> void:
+	cutting_damage = actor.damage_to_resource
 	animated_sprite_2d.play("Chopping")
 	
 	if not animated_sprite_2d.is_connected("animation_finished", _on_animation_finished):

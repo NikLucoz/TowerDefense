@@ -1,10 +1,11 @@
 class_name VillagerState extends State
 
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
-@onready var actor: Node2D = $"../.."
-@export var move_speed = 200
+@onready var state_machine = %StateMachine
+@onready var actor = get_owner()
+@onready var move_speed: int = actor.move_speed
 
-enum res_type {TREE, FORAGE}
+enum res_type {TREE, FORAGE, GOLDORE}
 
 func find_target_resources(x: int, type: res_type):
 	var resources = []
@@ -13,6 +14,8 @@ func find_target_resources(x: int, type: res_type):
 		resources = GameManager.get_tree_list()
 	elif type == res_type.FORAGE:
 		resources = GameManager.get_forage_list()
+	elif type == res_type.GOLDORE:
+		resources = GameManager.get_goldore_list()
 	
 	var closest_resources = []
 	

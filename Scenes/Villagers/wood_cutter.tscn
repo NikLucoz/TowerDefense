@@ -1,6 +1,6 @@
 [gd_scene load_steps=27 format=3 uid="uid://0ajxyxheb8fd"]
 
-[ext_resource type="Script" path="res://Scripts/Nodes/wood_cutter.gd" id="1_ylp5r"]
+[ext_resource type="Script" path="res://Scripts/Nodes/resource_villager.gd" id="1_gj4i8"]
 [ext_resource type="Texture2D" uid="uid://dcu7lonscw3p" path="res://Assets/Tilesets/Tiny Swords/Factions/Knights/Troops/Pawn/Red/Pawn_Red.png" id="2_rtaxq"]
 [ext_resource type="Script" path="res://Scripts/States/villager_idle_state.gd" id="4_x3kuj"]
 [ext_resource type="Script" path="res://Scripts/States/Woodcutter/woodcutter_working_state.gd" id="5_3cwet"]
@@ -195,7 +195,7 @@ func on_child_transition(new_state_name: StringName) -> void:
 [node name="WoodCutter" type="CharacterBody2D"]
 z_index = 1
 y_sort_enabled = true
-script = ExtResource("1_ylp5r")
+script = ExtResource("1_gj4i8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
@@ -214,11 +214,9 @@ CURRENT_STATE = NodePath("IdleState")
 
 [node name="IdleState" type="Node" parent="StateMachine"]
 script = ExtResource("4_x3kuj")
-max_searching_target_number = 5
 
 [node name="ReachState" type="Node" parent="StateMachine"]
 script = ExtResource("5_jsfei")
 
 [node name="WorkingState" type="Node" parent="StateMachine"]
 script = ExtResource("5_3cwet")
-cutting_damage = 4

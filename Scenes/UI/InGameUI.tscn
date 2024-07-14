@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://0skk5qop0mt0"]
+[gd_scene load_steps=13 format=3 uid="uid://0skk5qop0mt0"]
 
 [ext_resource type="Theme" uid="uid://bg8xeccqgk1g6" path="res://Assets/Theme/default_theme.tres" id="1_bimyx"]
 [ext_resource type="Script" path="res://Scripts/Manager_Handlers/UI/resource_action_manager.gd" id="1_nigpe"]
@@ -7,7 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://cs0jllnunn3jw" path="res://Assets/Tilesets/Tiny Swords/Resources/Resources/M_Idle_(NoShadow).png" id="4_b2w6h"]
 [ext_resource type="Texture2D" uid="uid://bktsv254d5jie" path="res://Assets/UI/forager_ui.png" id="6_80rxq"]
 [ext_resource type="Script" path="res://Scripts/UI/ActionPanel.gd" id="6_xlk50"]
+[ext_resource type="Texture2D" uid="uid://xaasym4yo633" path="res://Assets/Tilesets/Tiny Swords/Resources/Resources/W_Idle.png" id="8_iw8x8"]
 [ext_resource type="Texture2D" uid="uid://w3m5ait77plq" path="res://Assets/UI/woodcutter_ui.png" id="8_qinfu"]
+[ext_resource type="Texture2D" uid="uid://dg1mawkclmi2r" path="res://Assets/UI/gold_finder_ui.png" id="9_d7038"]
+[ext_resource type="Texture2D" uid="uid://b70msvp4j0jff" path="res://Assets/Tilesets/Tiny Swords/Resources/Resources/G_Idle.png" id="9_kde7b"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v3og3"]
 
@@ -184,8 +187,8 @@ text = "Reset Entities"
 
 [node name="ActionPanel" type="TabContainer" parent="Control/MarginContainer/Container"]
 layout_mode = 0
-offset_top = 444.0
-offset_right = 439.0
+offset_top = 495.0
+offset_right = 483.0
 offset_bottom = 684.0
 script = ExtResource("6_xlk50")
 
@@ -194,8 +197,8 @@ layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/Container/ActionPanel/Villagers"]
 layout_mode = 0
-offset_right = 439.0
-offset_bottom = 206.0
+offset_right = 483.0
+offset_bottom = 154.0
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
@@ -206,7 +209,7 @@ layout_mode = 2
 
 [node name="ForagerControl" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control"]
 anchors_preset = 0
-offset_right = 301.0
+offset_right = 446.0
 offset_bottom = 40.0
 
 [node name="ForagerBuyButton" type="Button" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl"]
@@ -214,45 +217,106 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.578
 anchor_bottom = 1.0
-offset_right = 0.0220032
+offset_right = -83.788
 mouse_default_cursor_shape = 2
 text = "Forager"
 icon = ExtResource("6_80rxq")
 alignment = 0
 
-[node name="Control" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl"]
+[node name="FoodCost" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl"]
+layout_mode = 3
 anchors_preset = 0
 offset_left = 183.0
-offset_top = 47.0
 offset_right = 265.0
-offset_bottom = 87.0
+offset_bottom = 40.0
 
-[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl/Control"]
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl/FoodCost"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.733
 anchor_top = 0.235
 anchor_right = 0.827
 anchor_bottom = 0.775
-offset_left = -45.106
-offset_top = -30.4
-offset_right = 20.134
-offset_bottom = 17.0
+offset_left = -86.106
+offset_top = -29.4
+offset_right = -20.866
+offset_bottom = 18.0
 grow_vertical = 2
 texture = ExtResource("4_b2w6h")
 expand_mode = 1
 
-[node name="Label" type="Label" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl/Control"]
+[node name="Label" type="Label" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl/FoodCost"]
 layout_mode = 0
-offset_top = 5.0
-offset_right = 40.0
-offset_bottom = 31.0
-text = "50x"
+offset_left = 29.0
+offset_top = 7.0
+offset_right = 77.0
+offset_bottom = 33.0
+text = "x120"
+
+[node name="WoodCost" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 267.0
+offset_right = 356.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl/WoodCost"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.733
+anchor_top = 0.235
+anchor_right = 0.827
+anchor_bottom = 0.775
+offset_left = -94.106
+offset_top = -50.4
+offset_right = -2.814
+offset_bottom = 21.0
+grow_vertical = 2
+texture = ExtResource("8_iw8x8")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl/WoodCost"]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 7.0
+offset_right = 93.0
+offset_bottom = 33.0
+text = "x120"
+
+[node name="GoldCost" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 361.0
+offset_right = 450.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl/GoldCost"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.733
+anchor_top = 0.235
+anchor_right = 0.827
+anchor_bottom = 0.775
+offset_left = -88.237
+offset_top = -29.4
+offset_right = -19.603
+offset_bottom = 21.0
+grow_vertical = 2
+texture = ExtResource("9_kde7b")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl/GoldCost"]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 7.0
+offset_right = 85.0
+offset_bottom = 33.0
+text = "x120"
 
 [node name="WoodcutterControl" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control"]
 anchors_preset = 0
 offset_top = 47.0
-offset_right = 285.0
+offset_right = 446.0
 offset_bottom = 87.0
 
 [node name="WoodcutterBuyButton" type="Button" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl"]
@@ -262,41 +326,211 @@ anchor_top = 0.253
 anchor_right = 0.415
 anchor_bottom = 0.478
 offset_top = -10.12
-offset_right = 55.725
+offset_right = -11.09
 offset_bottom = 20.88
 mouse_default_cursor_shape = 2
 text = "Woodcutter"
 icon = ExtResource("8_qinfu")
 alignment = 0
 
-[node name="Control2" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl"]
+[node name="FoodCost" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl"]
+layout_mode = 3
 anchors_preset = 0
 offset_left = 183.0
-offset_top = -47.0
 offset_right = 265.0
-offset_bottom = -7.0
+offset_bottom = 40.0
 
-[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl/Control2"]
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl/FoodCost"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.733
 anchor_top = 0.235
 anchor_right = 0.827
 anchor_bottom = 0.775
-offset_left = -45.106
-offset_top = -30.4
-offset_right = 20.134
-offset_bottom = 17.0
+offset_left = -86.106
+offset_top = -29.4
+offset_right = -20.866
+offset_bottom = 18.0
 grow_vertical = 2
 texture = ExtResource("4_b2w6h")
 expand_mode = 1
 
-[node name="Label" type="Label" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl/Control2"]
+[node name="Label" type="Label" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl/FoodCost"]
 layout_mode = 0
-offset_top = 5.0
-offset_right = 40.0
-offset_bottom = 31.0
-text = "30x"
+offset_left = 29.0
+offset_top = 7.0
+offset_right = 77.0
+offset_bottom = 33.0
+text = "x120"
+
+[node name="WoodCost" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 267.0
+offset_right = 356.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl/WoodCost"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.733
+anchor_top = 0.235
+anchor_right = 0.827
+anchor_bottom = 0.775
+offset_left = -94.106
+offset_top = -50.4
+offset_right = -2.814
+offset_bottom = 21.0
+grow_vertical = 2
+texture = ExtResource("8_iw8x8")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl/WoodCost"]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 7.0
+offset_right = 93.0
+offset_bottom = 33.0
+text = "x120"
+
+[node name="GoldCost" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 361.0
+offset_right = 450.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl/GoldCost"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.733
+anchor_top = 0.235
+anchor_right = 0.827
+anchor_bottom = 0.775
+offset_left = -88.237
+offset_top = -29.4
+offset_right = -19.603
+offset_bottom = 21.0
+grow_vertical = 2
+texture = ExtResource("9_kde7b")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl/GoldCost"]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 7.0
+offset_right = 85.0
+offset_bottom = 33.0
+text = "x120"
+
+[node name="GoldFinderControl" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control"]
+anchors_preset = 0
+offset_top = 92.0
+offset_right = 450.0
+offset_bottom = 132.0
+
+[node name="GoldFinderBuyButton" type="Button" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/GoldFinderControl"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.253
+anchor_right = 0.415
+anchor_bottom = 0.478
+offset_top = -10.12
+offset_right = -10.75
+offset_bottom = 20.88
+mouse_default_cursor_shape = 2
+text = "Gold Finder"
+icon = ExtResource("9_d7038")
+alignment = 0
+
+[node name="FoodCost" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/GoldFinderControl"]
+anchors_preset = 0
+offset_left = 183.0
+offset_right = 265.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/GoldFinderControl/FoodCost"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.733
+anchor_top = 0.235
+anchor_right = 0.827
+anchor_bottom = 0.775
+offset_left = -86.106
+offset_top = -29.4
+offset_right = -20.866
+offset_bottom = 18.0
+grow_vertical = 2
+texture = ExtResource("4_b2w6h")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/GoldFinderControl/FoodCost"]
+layout_mode = 0
+offset_left = 29.0
+offset_top = 7.0
+offset_right = 77.0
+offset_bottom = 33.0
+text = "x120"
+
+[node name="WoodCost" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/GoldFinderControl"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 267.0
+offset_right = 356.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/GoldFinderControl/WoodCost"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.733
+anchor_top = 0.235
+anchor_right = 0.827
+anchor_bottom = 0.775
+offset_left = -94.106
+offset_top = -50.4
+offset_right = -2.814
+offset_bottom = 21.0
+grow_vertical = 2
+texture = ExtResource("8_iw8x8")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/GoldFinderControl/WoodCost"]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 7.0
+offset_right = 93.0
+offset_bottom = 33.0
+text = "x120"
+
+[node name="GoldCost" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/GoldFinderControl"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 361.0
+offset_right = 450.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/GoldFinderControl/GoldCost"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.733
+anchor_top = 0.235
+anchor_right = 0.827
+anchor_bottom = 0.775
+offset_left = -88.237
+offset_top = -29.4
+offset_right = -19.603
+offset_bottom = 21.0
+grow_vertical = 2
+texture = ExtResource("9_kde7b")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/GoldFinderControl/GoldCost"]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 7.0
+offset_right = 85.0
+offset_bottom = 33.0
+text = "x120"
 
 [node name="Buildings" type="TabBar" parent="Control/MarginContainer/Container/ActionPanel"]
 visible = false
@@ -304,8 +538,9 @@ layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/Container/ActionPanel/Buildings"]
 layout_mode = 0
+offset_top = 34.0
 offset_right = 439.0
-offset_bottom = 206.0
+offset_bottom = 240.0
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
@@ -314,8 +549,72 @@ theme_override_constants/margin_bottom = 10
 [node name="Control" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Buildings/MarginContainer"]
 layout_mode = 2
 
+[node name="Upgrades" type="TabBar" parent="Control/MarginContainer/Container/ActionPanel"]
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/Container/ActionPanel/Upgrades"]
+layout_mode = 0
+offset_top = 34.0
+offset_right = 439.0
+offset_bottom = 240.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Control" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Upgrades/MarginContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Upgrades/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Control/MarginContainer/Container/ActionPanel/Upgrades/MarginContainer/Control/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "You need to build first the 
+Town hall to buy upgrades"
+horizontal_alignment = 1
+
+[node name="InfoCameraLabel" type="Label" parent="Control/MarginContainer/Container"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -336.0
+offset_top = -47.0
+offset_bottom = -21.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Press V to center the camera"
+
+[node name="VersionLabel" type="Label" parent="Control/MarginContainer/Container"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -336.0
+offset_top = -20.0
+offset_bottom = 6.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "v0.1"
+horizontal_alignment = 2
+
 [connection signal="pressed" from="Control/MarginContainer/Container/DebugActionPanel/SpawnLumberJackButton" to="Control" method="_on_spawn_lumberJack_button_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/Container/DebugActionPanel/SpawnForagerButton2" to="Control" method="_on_spawn_forager_button_2_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/Container/DebugActionPanel/ResetEntitiesButton" to="Control" method="_on_reset_entities_button_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl/ForagerBuyButton" to="Control/MarginContainer/Container/ActionPanel" method="_on_forager_buy_button_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl/WoodcutterBuyButton" to="Control/MarginContainer/Container/ActionPanel" method="_on_woodcutter_buy_button_pressed"]
+[connection signal="pressed" from="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/GoldFinderControl/GoldFinderBuyButton" to="Control/MarginContainer/Container/ActionPanel" method="_on_gold_finder_buy_button_pressed"]

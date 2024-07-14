@@ -1,8 +1,9 @@
 extends VillagerState
 
-@export var harvesting_damage = 4
+var harvesting_damage: int
 
 func enter() -> void:
+	harvesting_damage = actor.damage_to_resource
 	print("Start Harvesting")
 	animated_sprite_2d.play("Harvesting")
 	

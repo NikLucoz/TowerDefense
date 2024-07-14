@@ -2,19 +2,23 @@ extends TileMap
 
 const TREE = preload("res://Scenes/Resources/tree.tscn")
 const FORAGE = preload("res://Scenes/Resources/forage.tscn")
-const CASTLE = preload("res://Scenes/Level/castle.tscn")
+const GOLD_ORE = preload("res://Scenes/Resources/gold_ore.tscn")
+const CASTLE = preload("res://Scenes/Level/town_hall.tscn")
+
+signal world_gen_finished()
 
 @onready var fast_noise_generator = FastNoiseLite.new()
-@onready var camera_2d = $"../Camera2D"
+@onready var camera_2d: Camera2D = $"../Camera2D"
 
 @export_category("Map options")
-@export var width: float = 100
-@export var height: float = 100
+var width: float = GameManager.map_size_width
+var height: float = GameManager.map_size_height
 
 @export_category("Spawn rate options")
-@export var tree_spawn_rate: int = 12
-@export var forage_spawn_rate: int = 2
-@export var decoration_spawn_rate: int = 5
+@export var tree_spawn_rate: float = 12
+@export var forage_spawn_rate: float = 2
+@export var gold_ore_spawn_rate: float = 0.12
+@export var decoration_spawn_rate: float = 5
 
 var town_hall_placed: bool = false
 var town_hall_tiles: Array[Vector2] = []
@@ -24,8 +28,6 @@ const TILES = {
 	1 : Vector2(0,2),	# Sabbia
 	2 : Vector2(0,1), 	# Terra
 }
-
-signal world_gen_finished()
 
 func _ready():
 	camera_2d.enabled = false
@@ -59,12 +61,12 @@ func generate_world():
 	fast_noise_generator.domain_warp_fractal_octaves = 3
 	fast_noise_generator.domain_warp_fractal_lacunarity = 1.200
 	
-	for x in range(-(width/2), width/2):
-		for y in range(-(height/2), height/2):
+	for x: int in range(-(width/2), width/2):
+		for y: int in range(-(height/2), height/2):
 			var atlas_tile_pos: Vector2
-			var abs_noise = abs(fast_noise_generator.get_noise_2d(x, y))
+			var abs_noise: float = abs(fast_noise_generator.get_noise_2d(x, y))
 			
-			var tile_to_place = floori(abs_noise * 3)
+			var tile_to_place: int = floori(abs_noise * 3)
 			atlas_tile_pos = TILES[tile_to_place]
 		
 			set_cell(0, Vector2(x,y), 0, atlas_tile_pos)
@@ -72,29 +74,19 @@ func generate_world():
 	while not town_hall_placed:
 		place_town_hall()
 
-	for x in range(-(width/2), width/2):
-		for y in range(-(height/2), height/2):
-			var abs_noise = abs(fast_noise_generator.get_noise_2d(x, y))
-			var tile_to_place = floori(abs_noise * 3)
-			
-			match tile_to_place:
-				0:
-					if not town_hall_tiles.has(Vector2(x, y)):
-						if not place_resource(rng, x, y, TREE, tree_spawn_rate):
-							if not place_resource(rng, x, y, FORAGE, forage_spawn_rate):
-								place_grass_decoration(rng, x, y)
-				1:
-					place_sand_decoration(rng, x, y)
-				2: 
-					place_dirt_decoration(rng, x, y)
+	place_resources_and_decorations(rng)
 
 	print("Map creation ended with seed: " + str(fast_noise_generator.seed))
+	camera_2d.limit_top = int(-((height/2) + 5) * 64)
+	camera_2d.limit_bottom = int(((height/2) + 5) * 64)
+	camera_2d.limit_left = int(-((width/2) + 5) * 64)
+	camera_2d.limit_right = int(((width/2) + 5) * 64)
 	world_gen_finished.emit()
 
 func place_town_hall():
-	var x = randi_range(floor(-width/2), floor(width/2))
-	var y = randi_range(floor(-height/2), floor(height/2))
-	var first_tile = floori(
+	var x: int = randi_range(floor(-width/2), floor(width/2))
+	var y: int = randi_range(floor(-height/2), floor(height/2))
+	var first_tile: int = floori(
 		abs(fast_noise_generator.get_noise_2d(x, y)) * 3
 	)
 		
@@ -106,10 +98,10 @@ func place_town_hall():
 	if first_tile == 0 && not town_hall_placed:
 		town_hall_tiles.append(Vector2(x, y))
 		
-		for hx in range(x-5, x+5):
-			for hy in range(y-5, y+5):
-				var th_abs_noise = abs(fast_noise_generator.get_noise_2d(hx, hy))
-				var th_tile = floori(th_abs_noise * 3)
+		for hx: int in range(x-5, x+5):
+			for hy: int in range(y-5, y+5):
+				var th_abs_noise: float = abs(fast_noise_generator.get_noise_2d(hx, hy))
+				var th_tile: int = floori(th_abs_noise * 3)
 				if th_tile == 0:
 					town_hall_tiles.append(Vector2(hx, hy))
 				else:
@@ -126,18 +118,37 @@ func place_town_hall():
 	else:
 		return
 
-func place_resource(rng: RandomNumberGenerator, x: int, y: int, RESOURCE: PackedScene, resource_spawn_rate: int) -> bool:
+func place_resources_and_decorations(rng: RandomNumberGenerator):
+	for x: int in range(-(width/2), width/2):
+		for y: int in range(-(height/2), height/2):
+			var abs_noise: float = abs(fast_noise_generator.get_noise_2d(x, y))
+			var tile_to_place: int = floori(abs_noise * 3)
+			
+			match tile_to_place:
+				0:
+					if not town_hall_tiles.has(Vector2(x, y)):
+						if not place_resource(rng, x, y, TREE, tree_spawn_rate):
+							if not place_resource(rng, x, y, FORAGE, forage_spawn_rate):
+								place_grass_decoration(rng, x, y)
+				1:
+					if not place_resource(rng, x, y, GOLD_ORE, gold_ore_spawn_rate):
+						place_sand_decoration(rng, x, y)
+				2: 
+					place_dirt_decoration(rng, x, y)
+
+func place_resource(rng: RandomNumberGenerator, x: int, y: int, RESOURCE: PackedScene, resource_spawn_rate: float) -> bool:
 	# Per non piazzare risorse sul bordo della mappa
 	if x == (width / 2) or x == -(width / 2):
 		return false
 	if y == (height / 2) or y == -(height / 2):
 		return false
-
-	var rng_value = rng.randi_range(0, 99)
+		
+	rng.randomize()
+	var rng_value = rng.randf_range(0.0, 99.9)
 	if rng_value <= resource_spawn_rate:
 		var instance = RESOURCE.instantiate()
 		if instance.is_in_group("Forage"):
-			var random = rng.randi_range(1, 100)
+			var random: int = rng.randi_range(1, 100)
 			if random < 40:
 				instance.type = Forage.forage_type.BERRY
 			else:
@@ -149,19 +160,19 @@ func place_resource(rng: RandomNumberGenerator, x: int, y: int, RESOURCE: Packed
 	return false
 
 func place_grass_decoration(rng: RandomNumberGenerator, x: int, y: int):
-	var rng_decoration_value = rng.randi_range(0, 99)
+	var rng_decoration_value: int = rng.randi_range(0, 99)
 	if rng_decoration_value < decoration_spawn_rate:
 		var rng_tile_decoration = rng.randi_range(1, 3)
 		set_cell(1, Vector2(x,y), 0, Vector2(rng_tile_decoration, 0))
 
 func place_sand_decoration(rng: RandomNumberGenerator, x: int, y: int):
-	var rng_decoration_value = rng.randi_range(0, 99)
+	var rng_decoration_value: int = rng.randi_range(0, 99)
 	if rng_decoration_value < decoration_spawn_rate:
 		var rng_tile_decoration = rng.randi_range(1, 2)
 		set_cell(1, Vector2(x,y), 0, Vector2(rng_tile_decoration, 2))
 
 func place_dirt_decoration(rng: RandomNumberGenerator, x: int, y: int):
-	var rng_decoration_value = rng.randi_range(0, 99)
+	var rng_decoration_value: int = rng.randi_range(0, 99)
 	if rng_decoration_value < decoration_spawn_rate:
 		var rng_tile_decoration = rng.randi_range(1, 2)
 		set_cell(1, Vector2(x,y), 0, Vector2(rng_tile_decoration, 1))

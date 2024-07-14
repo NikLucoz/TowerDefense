@@ -6,6 +6,10 @@ var max_unzoom = 0.4
 
 var drag_cursor_shape = false
 
+func _unhandled_key_input(event):
+	if event.is_action_pressed("reset_camera"):
+		position = GameManager.town_hall.position
+
 func _input(event):
 	if event is InputEventMouseMotion:
 		if event.button_mask == MOUSE_BUTTON_MASK_MIDDLE:

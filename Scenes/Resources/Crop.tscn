@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://c43rt8v80p7gw"]
 
 [ext_resource type="Script" path="res://Scripts/Nodes/crop.gd" id="1_mk3qv"]
-[ext_resource type="SpriteFrames" uid="uid://bjmrhprjsus5u" path="res://Assets/Forages/lettuce_sprite_frames.tres" id="2_a3sfa"]
+[ext_resource type="SpriteFrames" uid="uid://bjmrhprjsus5u" path="res://Assets/Resources/Forages/lettuce_sprite_frames.tres" id="2_a3sfa"]
 [ext_resource type="PackedScene" uid="uid://dw417dcml3bda" path="res://Scenes/Utils/damage_handler.tscn" id="3_khu67"]
 [ext_resource type="Script" path="res://Scripts/Manager_Handlers/damageable_stats.gd" id="4_p0gv7"]
 

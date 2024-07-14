@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://dcefutp3yewk4"]
+
+[ext_resource type="Texture2D" uid="uid://w506wmef34su" path="res://Assets/Resources/gold_ore.png" id="1_3d5dj"]
+[ext_resource type="Script" path="res://Scripts/Nodes/gold_ore.gd" id="1_ou317"]
+[ext_resource type="PackedScene" uid="uid://dw417dcml3bda" path="res://Scenes/Utils/damage_handler.tscn" id="3_ij6s0"]
+[ext_resource type="Script" path="res://Scripts/Manager_Handlers/damageable_stats.gd" id="4_w50ks"]
+
+[sub_resource type="Resource" id="Resource_6mipv"]
+script = ExtResource("4_w50ks")
+startingHealth = 1000.0
+defense = 0.0
+
+[node name="GoldOre" type="Node2D" groups=["GoldOre"]]
+z_index = 1
+script = ExtResource("1_ou317")
+drop_max_amount = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_3d5dj")
+
+[node name="DamageHandler" parent="." instance=ExtResource("3_ij6s0")]
+hasDamageOverride = true
+hasDestroyedOverride = true
+damageableStats = SubResource("Resource_6mipv")
+
+[connection signal="destroyedOverride" from="DamageHandler" to="." method="_on_damage_handler_destroyed_override"]
+[connection signal="takeDamageOverride" from="DamageHandler" to="." method="_on_damage_handler_take_damage_override"]

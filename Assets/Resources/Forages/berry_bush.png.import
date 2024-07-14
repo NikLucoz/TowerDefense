@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bf7emcly84d6b"
-path="res://.godot/imported/berry_bush.png-923cb02cf61b1d175d85757e0b16fe05.ctex"
+path="res://.godot/imported/berry_bush.png-b6282377a5fc4ab1ba43e530226b458b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Forages/berry_bush.png"
-dest_files=["res://.godot/imported/berry_bush.png-923cb02cf61b1d175d85757e0b16fe05.ctex"]
+source_file="res://Assets/Resources/Forages/berry_bush.png"
+dest_files=["res://.godot/imported/berry_bush.png-b6282377a5fc4ab1ba43e530226b458b.ctex"]
 
 [params]
 

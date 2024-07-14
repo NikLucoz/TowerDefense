@@ -6,14 +6,13 @@ const FORAGER = preload("res://Scenes/Villagers/forager.tscn")
 @onready var wood_label = $MarginContainer/Container/ResourceContainer/WoodPanel/Label
 @onready var gold_label = $MarginContainer/Container/ResourceContainer/GoldPanel/Label
 @onready var food_label = $MarginContainer/Container/ResourceContainer/FoodPanel/Label
+@onready var version_label = $MarginContainer/Container/VersionLabel
 
 @onready var debug_action_panel = $MarginContainer/Container/DebugActionPanel
-@onready var action_panel = $MarginContainer/Container/ActionPanel
 
 func _ready():
-	GameManager.in_game_ui = self
 	debug_action_panel.visible = false
-	action_panel.visible = false
+	version_label.text = GameManager.version_level_string
 
 func _unhandled_key_input(event):
 	if event.is_action_pressed("debug"):
@@ -32,6 +31,3 @@ func _on_reset_entities_button_pressed():
 
 func _on_spawn_forager_button_2_pressed():
 	GameManager.spawn_entity(FORAGER)
-
-func open_close_action_panel():
-	action_panel.visible = !action_panel.visible

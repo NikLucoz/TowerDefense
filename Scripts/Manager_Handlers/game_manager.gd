@@ -1,13 +1,33 @@
 extends Node
+
 const FORAGER = preload("res://Scenes/Villagers/forager.tscn")
 const WOOD_CUTTER = preload("res://Scenes/Villagers/wood_cutter.tscn")
+const GOLD_FINDER = preload("res://Scenes/Villagers/gold_finder.tscn")
 
 enum resource_type { WOOD, GOLD, FOOD }
 enum villagers_type {
 	FORAGER,
-	WOODCUTTER
+	WOODCUTTER,
+	GOLDFINDER
 }
 
+@export var map_size_width = 200
+@export var map_size_height = 200
+@export var tree_list: Array[GameTree]
+@export var forage_list: Array[Forage]
+@export var goldores_list: Array[GoldOres]
+@export var resources = {
+	resource_type.FOOD: 150,
+	resource_type.GOLD: 100,
+	resource_type.WOOD: 100
+}
+
+var version_level_string: String = "v0.1"
+var level_instance: Node
+var level_tilemap: TileMap
+var entities: Array[Node] = []
+var town_hall: Node2D
+var camera_2D: Camera2D
 var villagers_costs: Dictionary = { 
 	villagers_type.FORAGER: {
 		resource_type.FOOD: 30,
@@ -17,28 +37,28 @@ var villagers_costs: Dictionary = {
 	villagers_type.WOODCUTTER: {
 		resource_type.FOOD: 50,
 		resource_type.WOOD: 0,
-		resource_type.GOLD: 0,
+		resource_type.GOLD: 10,
 	}, 
+	villagers_type.GOLDFINDER: {
+		resource_type.FOOD: 120,
+		resource_type.WOOD: 30,
+		resource_type.GOLD: 0,
+	}
 }
 
-@export var tree_list: Array[GameTree]
-@export var forage_list: Array[Forage]
-@export var resources = {
-	resource_type.FOOD: 100,
-	resource_type.GOLD: 100,
-	resource_type.WOOD: 100
-}
-
-var level_instance: Node
-var level_tilemap: TileMap
-var entities: Array[Node] = []
-var town_hall: Node2D
-var in_game_ui: Control
+signal _open_close_action_panel
 
 func _ready():
 	level_instance = get_tree().root.get_node("./Level")
 	level_tilemap = level_instance.get_node("./TileMap")
 	level_tilemap.connect("world_gen_finished", _on_world_gen_finished)
+
+func get_goldore_list() -> Array[GoldOres]:
+	goldores_list.clear()
+	for n in level_instance.get_children(false):
+		if n.is_in_group("GoldOre"):
+			goldores_list.append(n)
+	return goldores_list
 
 func get_forage_list() -> Array[Forage]:
 	forage_list.clear()
@@ -69,6 +89,7 @@ func add_resource(drop: ResourceDrop):
 	print("Added 1 " + str(drop.type))
 
 func _on_world_gen_finished():
+	town_hall.connect("_open_action_menu", openCloseActionPanel)
 	spawn_entity(FORAGER)
 
 func add_entity(entity: Node):
@@ -87,6 +108,7 @@ func buy_villager(type: villagers_type):
 	var gold_new_balance = resources[resource_type.GOLD] - costs[resource_type.GOLD]
 	
 	if food_new_balance < 0 or wood_new_balance < 0 or gold_new_balance < 0:
+		print("not enough resources")
 		return
 	
 	resources[resource_type.FOOD] = food_new_balance
@@ -99,6 +121,8 @@ func buy_villager(type: villagers_type):
 			entity_to_instanciate = FORAGER
 		villagers_type.WOODCUTTER:
 			entity_to_instanciate = WOOD_CUTTER
+		villagers_type.GOLDFINDER:
+			entity_to_instanciate = GOLD_FINDER
 	spawn_entity(entity_to_instanciate)
 
 func reset_entities():
@@ -109,4 +133,4 @@ func reset_entities():
 	entities.clear()
 
 func openCloseActionPanel():
-	in_game_ui.open_close_action_panel()
+	_open_close_action_panel.emit()
