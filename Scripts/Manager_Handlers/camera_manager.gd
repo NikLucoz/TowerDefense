@@ -8,7 +8,7 @@ var drag_cursor_shape = false
 
 func _unhandled_key_input(event):
 	if event.is_action_pressed("reset_camera"):
-		position = GameManager.town_hall.position
+		position = GameManager.get_entity_manager().town_hall.position
 
 func _input(event):
 	if event is InputEventMouseMotion:

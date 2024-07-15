@@ -1,6 +1,4 @@
 extends Node2D
 
-signal _open_action_menu
-
 func _on_button_pressed():
-	_open_action_menu.emit()
+	GameManager.get_event_bus().emit_signal("_open_close_action_panel")

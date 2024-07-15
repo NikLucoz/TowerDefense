@@ -81,7 +81,7 @@ func generate_world():
 	camera_2d.limit_bottom = int(((height/2) + 5) * 64)
 	camera_2d.limit_left = int(-((width/2) + 5) * 64)
 	camera_2d.limit_right = int(((width/2) + 5) * 64)
-	world_gen_finished.emit()
+	GameManager.get_event_bus().emit_signal("_world_gen_finished")
 
 func place_town_hall():
 	var x: int = randi_range(floor(-width/2), floor(width/2))
@@ -112,7 +112,7 @@ func place_town_hall():
 		var instance = CASTLE.instantiate()
 		instance.position = Vector2(x * 64, y * 64).floor()
 		get_parent().add_child.call_deferred(instance)
-		GameManager.town_hall = instance
+		GameManager.get_entity_manager().town_hall = instance
 		camera_2d.translate(Vector2(x * 64, y * 64))
 		camera_2d.enabled = true
 	else:

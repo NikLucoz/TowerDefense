@@ -24,10 +24,13 @@ func _process(_delta):
 	food_label.text = str(GameManager.resources[GameManager.resource_type.FOOD])
 
 func _on_spawn_lumberJack_button_pressed():
-	GameManager.spawn_entity(LUMBERJACK)
+	var entity_manager: EntityManager = GameManager.get_entity_manager()
+	entity_manager.spawn_entity(LUMBERJACK)
 
 func _on_reset_entities_button_pressed():
-	GameManager.reset_entities()
+	var entity_manager: EntityManager = GameManager.get_entity_manager()
+	entity_manager.reset_entities()
 
 func _on_spawn_forager_button_2_pressed():
-	GameManager.spawn_entity(FORAGER)
+	var entity_manager: EntityManager = GameManager.get_entity_manager()
+	entity_manager.spawn_entity(FORAGER)

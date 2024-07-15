@@ -15,7 +15,7 @@ extends TabContainer
 func _ready():
 	update_ui()
 	#visible = false
-	GameManager.connect("_open_close_action_panel", _on_open_close_action_panel)
+	GameManager.get_event_bus().connect("_open_close_action_panel", _on_open_close_action_panel)
 
 func update_ui():
 	forager_food_cost_label.text = "x" + str(GameManager.villagers_costs[GameManager.villagers_type.FORAGER][GameManager.resource_type.FOOD])
@@ -32,13 +32,16 @@ func update_ui():
 
 
 func _on_forager_buy_button_pressed():
-	GameManager.buy_villager(GameManager.villagers_type.FORAGER)
+	var entity_manager: EntityManager = GameManager.get_entity_manager()
+	entity_manager.buy_villager(entity_manager.villagers_type.FORAGER)
 
 func _on_woodcutter_buy_button_pressed():
-	GameManager.buy_villager(GameManager.villagers_type.WOODCUTTER)
+	var entity_manager: EntityManager = GameManager.get_entity_manager()
+	entity_manager.buy_villager(entity_manager.villagers_type.WOODCUTTER)
 
 func _on_gold_finder_buy_button_pressed():
-	GameManager.buy_villager(GameManager.villagers_type.GOLDFINDER)
+	var entity_manager: EntityManager = GameManager.get_entity_manager()
+	entity_manager.buy_villager(entity_manager.villagers_type.GOLDFINDER)
 
 func _on_open_close_action_panel():
 	visible = !visible

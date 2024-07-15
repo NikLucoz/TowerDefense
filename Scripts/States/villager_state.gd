@@ -10,6 +10,7 @@ enum res_type {TREE, FORAGE, GOLDORE}
 func find_target_resources(x: int, type: res_type):
 	var resources = []
 	
+	
 	if type == res_type.TREE:
 		resources = GameManager.get_tree_list()
 	elif type == res_type.FORAGE:
