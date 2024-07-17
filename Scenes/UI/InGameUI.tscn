@@ -612,6 +612,14 @@ grow_vertical = 0
 text = "v0.1"
 horizontal_alignment = 2
 
+[node name="TimeDateLabel" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 94.0
+offset_right = 625.0
+offset_bottom = 120.0
+text = "Time date label"
+
 [connection signal="pressed" from="Control/MarginContainer/Container/DebugActionPanel/SpawnLumberJackButton" to="Control" method="_on_spawn_lumberJack_button_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/Container/DebugActionPanel/SpawnForagerButton2" to="Control" method="_on_spawn_forager_button_2_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/Container/DebugActionPanel/ResetEntitiesButton" to="Control" method="_on_reset_entities_button_pressed"]

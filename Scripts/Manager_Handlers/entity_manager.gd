@@ -59,8 +59,13 @@ func add_entity(entity: Node):
 
 func spawn_entity(entity):
 	var instance = entity.instantiate()
-	instance.position = Vector2(town_hall.global_position.x + 3, town_hall.global_position.y + 20)
 	level_instance.add_child.call_deferred(instance)
+	entities.append(instance)
+
+func spawn_entity_on_pos(entity, x: float, y: float):
+	var instance = entity.instantiate()
+	level_instance.add_child.call_deferred(instance)
+	instance.position = Vector2(int(x),int(y))
 	entities.append(instance)
 
 func reset_entities():
@@ -93,5 +98,5 @@ func buy_villager(type: villagers_type):
 			entity_to_instanciate = WOOD_CUTTER
 		villagers_type.GOLDFINDER:
 			entity_to_instanciate = GOLD_FINDER
-	GameManager.get_event_bus()._resource_changed.emit()
-	spawn_entity(entity_to_instanciate)
+	EventBus._resource_changed.emit()
+	spawn_entity_on_pos(entity_to_instanciate, town_hall.position.x, town_hall.position.y)

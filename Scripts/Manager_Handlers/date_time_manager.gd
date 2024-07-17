@@ -1,7 +1,6 @@
 class_name DateTimeManager extends Node
 
 @onready var dateTime: DateTime = DateTime.new(time)
-var event_bus: EventBus 
 
 @export var initial_year: int = 1
 @export var time_multiplier: float
@@ -20,11 +19,7 @@ func _process(delta):
 	time += delta * time_multiplier
 	dateTime = DateTime.new(time)
 	
-	if event_bus:
-		event_bus.emit_signal("_time_passed", delta * time_multiplier)
-		check_work_hours_for_villagers()
-	else:
-		event_bus = GameManager.get_event_bus()
+	EventBus.emit_signal("_time_passed", delta * time_multiplier)
 	
 
 func get_real_time():

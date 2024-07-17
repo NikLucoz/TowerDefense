@@ -28,4 +28,4 @@ func spawn_drop():
 		)
 		instance.position = global_position + drop_position
 		get_parent().get_parent().add_child(instance)
-		GameManager.add_entity(instance)
+		GameManager.get_entity_manager().add_entity(instance)

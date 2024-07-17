@@ -12,7 +12,7 @@ var timer: Timer
 func _on_damage_handler_destroyed_override():
 	chopped = true
 	animated_sprite_2d.play("FullChopped")
-	GameManager.remove_tree(self)
+	GameManager.get_entity_manager().remove_tree(self)
 	
 	timer = Timer.new()
 	timer.one_shot = true
@@ -30,7 +30,7 @@ func _on_damage_handler_destroyed_override():
 		)
 		instance.position = global_position + drop_position
 		get_parent().get_parent().add_child(instance)
-		GameManager.add_entity(instance)
+		GameManager.get_entity_manager().add_entity(instance)
 
 func _on_timer_timeout():
 	print("timer tree")
@@ -39,7 +39,7 @@ func _on_timer_timeout():
 		print("respawn tree")
 		chopped = false
 		animated_sprite_2d.play("default")
-		GameManager.add_tree(self)
+		GameManager.get_entity_manager().add_tree(self)
 		remove_child(timer)
 	else:
 		queue_free()

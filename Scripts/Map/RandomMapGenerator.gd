@@ -5,8 +5,6 @@ const FORAGE = preload("res://Scenes/Resources/forage.tscn")
 const GOLD_ORE = preload("res://Scenes/Resources/gold_ore.tscn")
 const CASTLE = preload("res://Scenes/Level/town_hall.tscn")
 
-signal world_gen_finished()
-
 @onready var fast_noise_generator = FastNoiseLite.new()
 @onready var camera_2d: Camera2D = $"../Camera2D"
 
@@ -20,6 +18,7 @@ var height: float = GameManager.map_size_height
 @export var gold_ore_spawn_rate: float = 0.12
 @export var decoration_spawn_rate: float = 5
 
+var town_hall_position: Vector2
 var town_hall_placed: bool = false
 var town_hall_tiles: Array[Vector2] = []
 
@@ -31,13 +30,12 @@ const TILES = {
 
 func _ready():
 	camera_2d.enabled = false
-	generate_world()
+	EventBus.connect("_save_triggered", save_on_file)
+	connect("tree_exiting", save_on_exit)
+	setup_fast_noise_generator()
+	load_save()
 
-func generate_world():
-	print("Starting map creation")
-	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
-	rng.randomize()
-	fast_noise_generator.seed = rng.randi_range(0, 500) # 153 148 481
+func setup_fast_noise_generator():
 	fast_noise_generator.noise_type = FastNoiseLite.TYPE_CELLULAR
 	fast_noise_generator.frequency = 0.04
 	
@@ -60,6 +58,65 @@ func generate_world():
 	fast_noise_generator.domain_warp_fractal_gain = 0.500
 	fast_noise_generator.domain_warp_fractal_octaves = 3
 	fast_noise_generator.domain_warp_fractal_lacunarity = 1.200
+
+
+# SAVE & LOAD SECTION
+
+func load_save():
+	var config_file: ConfigFile = GameManager.get_save_file()
+	if config_file.has_section("map"):
+		var seed = config_file.get_value("map", "seed", 313)
+		fast_noise_generator.seed = seed
+		town_hall_position = config_file.get_value("map", "town_hall_position")
+		load_world(seed, town_hall_position.x, town_hall_position.y)
+	else:
+		generate_random_world()
+	EventBus.emit_signal("_world_gen_finished")
+
+func save_on_file(config_file: ConfigFile):
+	config_file.set_value("map", "seed", fast_noise_generator.seed)
+	config_file.set_value("map", "town_hall_position", town_hall_position)
+	GameManager.get_save_load_manager().save_file_to_disk()
+
+func save_on_exit():
+	var config_file = GameManager.get_save_file()
+	save_on_file(config_file)
+
+
+# WORLD GEN SECTION 
+
+func load_world(seed: int, town_hall_x: float, town_hall_y: float):
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.randomize()
+	
+	fast_noise_generator.seed = seed
+	
+	for x: int in range(-(width/2), width/2):
+		for y: int in range(-(height/2), height/2):
+			var atlas_tile_pos: Vector2
+			var abs_noise: float = abs(fast_noise_generator.get_noise_2d(x, y))
+			
+			var tile_to_place: int = floori(abs_noise * 3)
+			atlas_tile_pos = TILES[tile_to_place]
+		
+			set_cell(0, Vector2(x,y), 0, atlas_tile_pos)
+
+	place_town_hall(town_hall_x, town_hall_y)
+
+	#place_resources_and_decorations(rng)
+
+	print("Map creation ended with seed: " + str(fast_noise_generator.seed))
+	camera_2d.limit_top = int(-((height/2) + 5) * 64)
+	camera_2d.limit_bottom = int(((height/2) + 5) * 64)
+	camera_2d.limit_left = int(-((width/2) + 5) * 64)
+	camera_2d.limit_right = int(((width/2) + 5) * 64)
+
+func generate_random_world():
+	print("Starting map creation")
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.randomize()
+	
+	fast_noise_generator.seed = rng.randi_range(0, 500) # 153 148 481
 	
 	for x: int in range(-(width/2), width/2):
 		for y: int in range(-(height/2), height/2):
@@ -72,7 +129,7 @@ func generate_world():
 			set_cell(0, Vector2(x,y), 0, atlas_tile_pos)
 
 	while not town_hall_placed:
-		place_town_hall()
+		place_random_town_hall()
 
 	place_resources_and_decorations(rng)
 
@@ -81,11 +138,13 @@ func generate_world():
 	camera_2d.limit_bottom = int(((height/2) + 5) * 64)
 	camera_2d.limit_left = int(-((width/2) + 5) * 64)
 	camera_2d.limit_right = int(((width/2) + 5) * 64)
-	GameManager.get_event_bus().emit_signal("_world_gen_finished")
 
-func place_town_hall():
+func place_random_town_hall():
 	var x: int = randi_range(floor(-width/2), floor(width/2))
 	var y: int = randi_range(floor(-height/2), floor(height/2))
+	place_town_hall(x, y)
+
+func place_town_hall(x: int, y: int):
 	var first_tile: int = floori(
 		abs(fast_noise_generator.get_noise_2d(x, y)) * 3
 	)
@@ -113,6 +172,7 @@ func place_town_hall():
 		instance.position = Vector2(x * 64, y * 64).floor()
 		get_parent().add_child.call_deferred(instance)
 		GameManager.get_entity_manager().town_hall = instance
+		town_hall_position = Vector2(x, y)
 		camera_2d.translate(Vector2(x * 64, y * 64))
 		camera_2d.enabled = true
 	else:

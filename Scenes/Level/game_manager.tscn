@@ -1,17 +1,14 @@
 [gd_scene load_steps=7 format=3 uid="uid://dcxyui08olvtj"]
 
 [ext_resource type="Script" path="res://Scripts/Manager_Handlers/game_manager.gd" id="1_d1voa"]
-[ext_resource type="Script" path="res://Scripts/Manager_Handlers/event_bus.gd" id="2_rd1x7"]
 [ext_resource type="Script" path="res://Scripts/Manager_Handlers/entity_manager.gd" id="3_55mvn"]
 [ext_resource type="Script" path="res://Scripts/Manager_Handlers/date_time_manager.gd" id="4_ejlhn"]
 [ext_resource type="Script" path="res://Scripts/Manager_Handlers/light_manager.gd" id="5_snbdx"]
 [ext_resource type="Texture2D" uid="uid://cpa1a671fpnd2" path="res://Assets/daynightcycle-gradient-texture.tres" id="6_g54md"]
+[ext_resource type="Script" path="res://Scripts/Manager_Handlers/save_load_manager.gd" id="7_d7d4l"]
 
 [node name="GameManager" type="Node"]
 script = ExtResource("1_d1voa")
-
-[node name="EventBus" type="Node" parent="."]
-script = ExtResource("2_rd1x7")
 
 [node name="EntityManager" type="Node" parent="."]
 script = ExtResource("3_55mvn")
@@ -26,3 +23,6 @@ script = ExtResource("5_snbdx")
 gradient = ExtResource("6_g54md")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="LightManager"]
+
+[node name="SaveLoadManager" type="Node" parent="."]
+script = ExtResource("7_d7d4l")

@@ -15,7 +15,7 @@ extends TabContainer
 func _ready():
 	update_ui()
 	#visible = false
-	GameManager.get_event_bus().connect("_open_close_action_panel", _on_open_close_action_panel)
+	EventBus.connect("_open_close_action_panel", _on_open_close_action_panel)
 
 func update_ui():
 	forager_food_cost_label.text = "x" + str(GameManager.villagers_costs[GameManager.villagers_type.FORAGER][GameManager.resource_type.FOOD])

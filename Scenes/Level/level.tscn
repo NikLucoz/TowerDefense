@@ -47,5 +47,3 @@ script = ExtResource("3_vufl0")
 
 [node name="InGameUI" parent="." instance=ExtResource("6_bsmxy")]
 layer = 0
-
-[node name="Trees" type="Node" parent="."]

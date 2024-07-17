@@ -7,16 +7,20 @@ const FORAGER = preload("res://Scenes/Villagers/forager.tscn")
 @onready var gold_label = $MarginContainer/Container/ResourceContainer/GoldPanel/Label
 @onready var food_label = $MarginContainer/Container/ResourceContainer/FoodPanel/Label
 @onready var version_label = $MarginContainer/Container/VersionLabel
-
+@onready var time_date_label = $TimeDateLabel
 @onready var debug_action_panel = $MarginContainer/Container/DebugActionPanel
 
 func _ready():
 	debug_action_panel.visible = false
 	version_label.text = GameManager.version_level_string
+	EventBus.connect("_time_passed", update_time_date)
 
 func _unhandled_key_input(event):
 	if event.is_action_pressed("debug"):
 		debug_action_panel.visible = !debug_action_panel.visible
+
+func update_time_date(_time_passed):
+	time_date_label.text = GameManager.get_date_time_manager().dateTime._to_string()
 
 func _process(_delta):
 	wood_label.text = str(GameManager.resources[GameManager.resource_type.WOOD])
