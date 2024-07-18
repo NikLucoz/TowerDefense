@@ -161,6 +161,7 @@ script = ExtResource("1_to3nt")
 target_resource_type = 2
 max_searching_target_number = 1
 damage_to_resource = 4
+villager_type = 2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

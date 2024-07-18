@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 GameManager="*res://Scenes/Level/game_manager.tscn"
 EventBus="*res://Scenes/event_bus.tscn"
+Global="*res://Scripts/Manager_Handlers/global.gd"
 
 [display]
 

@@ -1,6 +1,6 @@
 extends VillagerState
 
-var target_resource_type: res_type
+var target_resource_type: Global.resource_type
 var max_searching_target_number: int 
 
 var moving_to_pos = false
@@ -14,7 +14,7 @@ func enter() -> void:
 	animated_sprite_2d.play("Idle")
 	timer = Timer.new()
 	timer.one_shot = true
-	timer.wait_time = 2
+	timer.wait_time = randf_range(1.2, 3.5)
 	add_child(timer)
 	timer.start()
 	if not timer.is_connected("timeout", _on_timer_timeout):
@@ -42,5 +42,4 @@ func update(delta):
 func _on_timer_timeout():
 	moving_to_pos = false
 	waiting_to_move = false
-	remove_child(timer)
 	find_target_resources(max_searching_target_number, target_resource_type)

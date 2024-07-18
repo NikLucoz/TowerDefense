@@ -23,9 +23,9 @@ func update_time_date(_time_passed):
 	time_date_label.text = GameManager.get_date_time_manager().dateTime._to_string()
 
 func _process(_delta):
-	wood_label.text = str(GameManager.resources[GameManager.resource_type.WOOD])
-	gold_label.text = str(GameManager.resources[GameManager.resource_type.GOLD])
-	food_label.text = str(GameManager.resources[GameManager.resource_type.FOOD])
+	wood_label.text = str(GameManager.resources[Global.resource_drop_type.WOOD])
+	gold_label.text = str(GameManager.resources[Global.resource_drop_type.GOLD])
+	food_label.text = str(GameManager.resources[Global.resource_drop_type.FOOD])
 
 func _on_spawn_lumberJack_button_pressed():
 	var entity_manager: EntityManager = GameManager.get_entity_manager()

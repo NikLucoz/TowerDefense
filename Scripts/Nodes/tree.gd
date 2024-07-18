@@ -1,13 +1,26 @@
 class_name GameTree extends Node2D
 
-const RESOURCE_DROP = preload("res://Scenes/Resources/resource_drop.tscn")
-
 @onready var animated_sprite_2d = $AnimatedSprite2D
-
 @export var drop_max_amount: int = 6
 @export var time_to_reset: int = 300
 var chopped: bool = false
 var timer: Timer
+
+
+func _ready():
+	EventBus.connect("_save_triggered", save_on_file)
+	connect("tree_exiting", save_on_exit)
+
+# SAVE SECTION
+func save_on_file(config_file: ConfigFile):
+	var node_id = str(self.name)
+	config_file.set_value("resources", node_id, {"position": position, "resource_type": Global.resource_type.TREE})
+	GameManager.get_save_load_manager().save_file_to_disk()
+
+func save_on_exit():
+	var config_file = GameManager.get_save_file()
+	save_on_file(config_file)
+
 
 func _on_damage_handler_destroyed_override():
 	chopped = true
@@ -22,8 +35,8 @@ func _on_damage_handler_destroyed_override():
 	timer.start()
 	
 	for i in range(randi_range(1, drop_max_amount)):
-		var instance = RESOURCE_DROP.instantiate()
-		instance.set_type(instance.resource_type.WOOD)
+		var instance = Global.RESOURCE_DROP.instantiate()
+		instance.set_type(Global.resource_drop_type.WOOD)
 		var drop_position = Vector2(
 			randf_range(-70, 70),
 			randf_range(-70, 70)

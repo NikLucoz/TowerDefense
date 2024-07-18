@@ -1,10 +1,5 @@
 extends TileMap
 
-const TREE = preload("res://Scenes/Resources/tree.tscn")
-const FORAGE = preload("res://Scenes/Resources/forage.tscn")
-const GOLD_ORE = preload("res://Scenes/Resources/gold_ore.tscn")
-const CASTLE = preload("res://Scenes/Level/town_hall.tscn")
-
 @onready var fast_noise_generator = FastNoiseLite.new()
 @onready var camera_2d: Camera2D = $"../Camera2D"
 
@@ -61,14 +56,13 @@ func setup_fast_noise_generator():
 
 
 # SAVE & LOAD SECTION
-
 func load_save():
 	var config_file: ConfigFile = GameManager.get_save_file()
 	if config_file.has_section("map"):
-		var seed = config_file.get_value("map", "seed", 313)
-		fast_noise_generator.seed = seed
+		var map_seed = config_file.get_value("map", "seed", 313)
+		fast_noise_generator.seed = map_seed
 		town_hall_position = config_file.get_value("map", "town_hall_position")
-		load_world(seed, town_hall_position.x, town_hall_position.y)
+		load_world(map_seed, town_hall_position.x, town_hall_position.y)
 	else:
 		generate_random_world()
 	EventBus.emit_signal("_world_gen_finished")
@@ -84,12 +78,11 @@ func save_on_exit():
 
 
 # WORLD GEN SECTION 
-
-func load_world(seed: int, town_hall_x: float, town_hall_y: float):
+func load_world(map_seed: int, town_hall_x: float, town_hall_y: float):
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.randomize()
 	
-	fast_noise_generator.seed = seed
+	fast_noise_generator.seed = map_seed
 	
 	for x: int in range(-(width/2), width/2):
 		for y: int in range(-(height/2), height/2):
@@ -100,7 +93,7 @@ func load_world(seed: int, town_hall_x: float, town_hall_y: float):
 			atlas_tile_pos = TILES[tile_to_place]
 		
 			set_cell(0, Vector2(x,y), 0, atlas_tile_pos)
-
+	load_resources()
 	place_town_hall(town_hall_x, town_hall_y)
 
 	#place_resources_and_decorations(rng)
@@ -110,6 +103,28 @@ func load_world(seed: int, town_hall_x: float, town_hall_y: float):
 	camera_2d.limit_bottom = int(((height/2) + 5) * 64)
 	camera_2d.limit_left = int(-((width/2) + 5) * 64)
 	camera_2d.limit_right = int(((width/2) + 5) * 64)
+
+func load_resources():
+	var config_file: ConfigFile = GameManager.get_save_file()
+	if config_file.has_section("resources"):
+		var resources_list = config_file.get_section_keys("resources")
+		for key in resources_list:
+			var res = config_file.get_value("resources", key)
+			var resource_to_instanciate: PackedScene
+			
+			match res["resource_type"]:
+				Global.resource_type.FORAGE:
+					resource_to_instanciate = Global.FORAGE
+				Global.resource_type.TREE:
+					resource_to_instanciate = Global.TREE
+				Global.resource_type.GOLDORE:
+					resource_to_instanciate = Global.GOLD_ORE
+			
+			var instance = resource_to_instanciate.instantiate()
+			get_parent().add_child.call_deferred(instance)
+			instance.position = res["position"]
+			if instance.is_in_group("Forage"):
+				instance.type = res["forage_type"]
 
 func generate_random_world():
 	print("Starting map creation")
@@ -144,7 +159,7 @@ func place_random_town_hall():
 	var y: int = randi_range(floor(-height/2), floor(height/2))
 	place_town_hall(x, y)
 
-func place_town_hall(x: int, y: int):
+func place_town_hall(x: float, y: float):
 	var first_tile: int = floori(
 		abs(fast_noise_generator.get_noise_2d(x, y)) * 3
 	)
@@ -168,7 +183,7 @@ func place_town_hall(x: int, y: int):
 
 		town_hall_placed = true
 		#Instanciate TownHall
-		var instance = CASTLE.instantiate()
+		var instance = Global.CASTLE.instantiate()
 		instance.position = Vector2(x * 64, y * 64).floor()
 		get_parent().add_child.call_deferred(instance)
 		GameManager.get_entity_manager().town_hall = instance
@@ -187,11 +202,11 @@ func place_resources_and_decorations(rng: RandomNumberGenerator):
 			match tile_to_place:
 				0:
 					if not town_hall_tiles.has(Vector2(x, y)):
-						if not place_resource(rng, x, y, TREE, tree_spawn_rate):
-							if not place_resource(rng, x, y, FORAGE, forage_spawn_rate):
+						if not place_resource(rng, x, y, Global.TREE, tree_spawn_rate):
+							if not place_resource(rng, x, y, Global.FORAGE, forage_spawn_rate):
 								place_grass_decoration(rng, x, y)
 				1:
-					if not place_resource(rng, x, y, GOLD_ORE, gold_ore_spawn_rate):
+					if not place_resource(rng, x, y, Global.GOLD_ORE, gold_ore_spawn_rate):
 						place_sand_decoration(rng, x, y)
 				2: 
 					place_dirt_decoration(rng, x, y)
@@ -210,9 +225,9 @@ func place_resource(rng: RandomNumberGenerator, x: int, y: int, RESOURCE: Packed
 		if instance.is_in_group("Forage"):
 			var random: int = rng.randi_range(1, 100)
 			if random < 40:
-				instance.type = Forage.forage_type.BERRY
+				instance.type = Global.forage_type.BERRY
 			else:
-				instance.type = Forage.forage_type.MUSHROOM
+				instance.type = Global.forage_type.MUSHROOM
 
 		instance.position = Vector2(x * 64, y * 64).floor()
 		get_parent().add_child.call_deferred(instance)

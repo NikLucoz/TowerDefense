@@ -5,27 +5,23 @@ class_name VillagerState extends State
 @onready var actor = get_owner()
 @onready var move_speed: int = actor.move_speed
 
-enum res_type {TREE, FORAGE, GOLDORE}
-
-func find_target_resources(x: int, type: res_type):
+func find_target_resources(x: int, type: Global.resource_type):
 	var resources = []
-	
-	
-	if type == res_type.TREE:
+	if type == Global.resource_type.TREE:
 		resources = GameManager.get_tree_list()
-	elif type == res_type.FORAGE:
+	elif type == Global.resource_type.FORAGE:
 		resources = GameManager.get_forage_list()
-	elif type == res_type.GOLDORE:
+	elif type == Global.resource_type.GOLDORE:
 		resources = GameManager.get_goldore_list()
 	
 	var closest_resources = []
 	
 	for res in resources:
 		if res != null:
-			if type == res_type.TREE and res.chopped == true:
+			if type == Global.resource_type.TREE and res.chopped == true:
 				continue
 				
-			if type == res_type.FORAGE and not res.damage_handler.damageable:
+			if type == Global.resource_type.FORAGE and not res.damage_handler.damageable:
 				continue 
 			
 			var res_position = res.global_transform.origin
@@ -40,6 +36,7 @@ func find_target_resources(x: int, type: res_type):
 	
 	if top_x_resources.is_empty():
 		print("No forage found -> Keep running idle state")
+		transition.emit("IdleState")
 	else:
 		actor.target = top_x_resources.pick_random().resource
 		transition.emit("ReachState")

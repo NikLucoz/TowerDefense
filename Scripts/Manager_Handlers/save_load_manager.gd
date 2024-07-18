@@ -9,7 +9,6 @@ var curret_game_file: ConfigFile
 var timer: Timer
 var exit_game_after: bool = false
 
-
 func _ready():
 	timer = Timer.new()
 	timer.autostart = true
@@ -37,13 +36,17 @@ func change_save_file_number(num: int) -> bool:
 	savefile_number = num
 	return true
 
+func _reset_resources():
+	var config_file: ConfigFile = get_savefile()
+	if config_file.has_section("resources"):
+		config_file.erase_section("resources")
 
 func trigger_Save():
 	print("save triggered")
+	_reset_resources()
 	EventBus.emit_signal("_save_triggered", get_savefile())
 
 func save_file_to_disk():
-	print("closing file")
 	var save_file = get_savefile()
 	if encrypt_save_file:
 		if save_file.save_encrypted_pass(save_path + "sf_"+ str(savefile_number) +".ini", encrypt_password) != OK:

@@ -196,6 +196,7 @@ func on_child_transition(new_state_name: StringName) -> void:
 z_index = 1
 y_sort_enabled = true
 script = ExtResource("1_gj4i8")
+villager_type = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
