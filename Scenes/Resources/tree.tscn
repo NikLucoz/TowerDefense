@@ -39,8 +39,6 @@ animations = [{
 }]
 
 [node name="Tree" type="Node2D" groups=["Tree"]]
-z_index = 1
-y_sort_enabled = true
 script = ExtResource("1_ftlwa")
 
 [node name="DamageHandler" parent="." instance=ExtResource("2_w6lx0")]
@@ -48,6 +46,7 @@ hasDestroyedOverride = true
 damageableStats = SubResource("Resource_8s1t8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, 16)
 sprite_frames = SubResource("SpriteFrames_y88k6")
 offset = Vector2(0, -40)
 

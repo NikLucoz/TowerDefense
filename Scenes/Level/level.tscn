@@ -37,6 +37,7 @@ layer_0/name = "Ground"
 layer_1/name = "Decorations"
 layer_1/tile_data = PackedInt32Array()
 script = ExtResource("3_0clf3")
+decoration_spawn_rate = 10.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -15)

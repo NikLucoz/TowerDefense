@@ -3,15 +3,20 @@ extends TileMap
 @onready var fast_noise_generator = FastNoiseLite.new()
 @onready var camera_2d: Camera2D = $"../Camera2D"
 
+const CASTLE = preload("res://Modules/TownHall/town_hall.tscn")
+const FORAGE = preload("res://Scenes/Resources/forage.tscn")
+const GOLD_ORE = preload("res://Scenes/Resources/gold_ore.tscn")
+const TREE = preload("res://Scenes/Resources/tree.tscn")
+
 @export_category("Map options")
-var width: float = GameManager.map_size_width
-var height: float = GameManager.map_size_height
+var width: float = Global.map_size_width
+var height: float = Global.map_size_height
 
 @export_category("Spawn rate options")
 @export var tree_spawn_rate: float = 12
 @export var forage_spawn_rate: float = 2
 @export var gold_ore_spawn_rate: float = 0.12
-@export var decoration_spawn_rate: float = 5
+@export var decoration_spawn_rate: float = 9
 
 var town_hall_position: Vector2
 var town_hall_placed: bool = false
@@ -58,6 +63,7 @@ func setup_fast_noise_generator():
 # SAVE & LOAD SECTION
 func load_save():
 	var config_file: ConfigFile = GameManager.get_save_file()
+	
 	if config_file.has_section("map"):
 		var map_seed = config_file.get_value("map", "seed", 313)
 		fast_noise_generator.seed = map_seed
@@ -78,53 +84,48 @@ func save_on_exit():
 
 
 # WORLD GEN SECTION 
+func set_camera_limits():
+	camera_2d.limit_top = int(-5 * 64)
+	camera_2d.limit_bottom = int(((height) + 5) * 64)
+	camera_2d.limit_left = int(-5 * 64)
+	camera_2d.limit_right = int(((width) + 5) * 64)
+
 func load_world(map_seed: int, town_hall_x: float, town_hall_y: float):
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.randomize()
 	
+	var config_file: ConfigFile = GameManager.get_save_file()
+	var resources_positions: Array[Vector2] = []
+	var resources_list = config_file.get_section_keys("resources")
+	for key in resources_list:
+		resources_positions.append(config_file.get_value("resources", key)["position"])
+		
 	fast_noise_generator.seed = map_seed
 	
-	for x: int in range(-(width/2), width/2):
-		for y: int in range(-(height/2), height/2):
+	place_town_hall(town_hall_x, town_hall_y)
+	
+	for x: int in range(0, width):
+		for y: int in range(0, height):
 			var atlas_tile_pos: Vector2
 			var abs_noise: float = abs(fast_noise_generator.get_noise_2d(x, y))
 			
 			var tile_to_place: int = floori(abs_noise * 3)
 			atlas_tile_pos = TILES[tile_to_place]
-		
+			
 			set_cell(0, Vector2(x,y), 0, atlas_tile_pos)
-	load_resources()
-	place_town_hall(town_hall_x, town_hall_y)
-
-	#place_resources_and_decorations(rng)
+			
+			if not resources_positions.has(Vector2(x, y)) and not town_hall_tiles.has(Vector2(x, y)):
+				match tile_to_place:
+					0:
+						place_grass_decoration(rng, x, y)
+					1:
+						place_sand_decoration(rng, x, y)
+					2: 
+						place_dirt_decoration(rng, x, y)
+		
 
 	print("Map creation ended with seed: " + str(fast_noise_generator.seed))
-	camera_2d.limit_top = int(-((height/2) + 5) * 64)
-	camera_2d.limit_bottom = int(((height/2) + 5) * 64)
-	camera_2d.limit_left = int(-((width/2) + 5) * 64)
-	camera_2d.limit_right = int(((width/2) + 5) * 64)
-
-func load_resources():
-	var config_file: ConfigFile = GameManager.get_save_file()
-	if config_file.has_section("resources"):
-		var resources_list = config_file.get_section_keys("resources")
-		for key in resources_list:
-			var res = config_file.get_value("resources", key)
-			var resource_to_instanciate: PackedScene
-			
-			match res["resource_type"]:
-				Global.resource_type.FORAGE:
-					resource_to_instanciate = Global.FORAGE
-				Global.resource_type.TREE:
-					resource_to_instanciate = Global.TREE
-				Global.resource_type.GOLDORE:
-					resource_to_instanciate = Global.GOLD_ORE
-			
-			var instance = resource_to_instanciate.instantiate()
-			get_parent().add_child.call_deferred(instance)
-			instance.position = res["position"]
-			if instance.is_in_group("Forage"):
-				instance.type = res["forage_type"]
+	set_camera_limits()
 
 func generate_random_world():
 	print("Starting map creation")
@@ -133,8 +134,8 @@ func generate_random_world():
 	
 	fast_noise_generator.seed = rng.randi_range(0, 500) # 153 148 481
 	
-	for x: int in range(-(width/2), width/2):
-		for y: int in range(-(height/2), height/2):
+	for x: int in range(0, width):
+		for y: int in range(0, height):
 			var atlas_tile_pos: Vector2
 			var abs_noise: float = abs(fast_noise_generator.get_noise_2d(x, y))
 			
@@ -149,14 +150,11 @@ func generate_random_world():
 	place_resources_and_decorations(rng)
 
 	print("Map creation ended with seed: " + str(fast_noise_generator.seed))
-	camera_2d.limit_top = int(-((height/2) + 5) * 64)
-	camera_2d.limit_bottom = int(((height/2) + 5) * 64)
-	camera_2d.limit_left = int(-((width/2) + 5) * 64)
-	camera_2d.limit_right = int(((width/2) + 5) * 64)
+	set_camera_limits()
 
 func place_random_town_hall():
-	var x: int = randi_range(floor(-width/2), floor(width/2))
-	var y: int = randi_range(floor(-height/2), floor(height/2))
+	var x: int = randi_range(10, width - 10)
+	var y: int = randi_range(10, height - 10)
 	place_town_hall(x, y)
 
 func place_town_hall(x: float, y: float):
@@ -164,10 +162,10 @@ func place_town_hall(x: float, y: float):
 		abs(fast_noise_generator.get_noise_2d(x, y)) * 3
 	)
 		
-	if x >= (width / 2) - 10 or x <= -(width / 2) + 10:
-		return
-	if y == (height / 2) or y == -(height / 2):
-		return
+	#if x >= (width / 2) - 10 or x <= -(width / 2) + 10:
+		#return
+	#if y == (height / 2) or y == -(height / 2):
+		#return
 	
 	if first_tile == 0 && not town_hall_placed:
 		town_hall_tiles.append(Vector2(x, y))
@@ -183,7 +181,7 @@ func place_town_hall(x: float, y: float):
 
 		town_hall_placed = true
 		#Instanciate TownHall
-		var instance = Global.CASTLE.instantiate()
+		var instance = CASTLE.instantiate()
 		instance.position = Vector2(x * 64, y * 64).floor()
 		get_parent().add_child.call_deferred(instance)
 		GameManager.get_entity_manager().town_hall = instance
@@ -194,28 +192,28 @@ func place_town_hall(x: float, y: float):
 		return
 
 func place_resources_and_decorations(rng: RandomNumberGenerator):
-	for x: int in range(-(width/2), width/2):
-		for y: int in range(-(height/2), height/2):
+	for x: int in range(0, width):
+		for y: int in range(0, height):
 			var abs_noise: float = abs(fast_noise_generator.get_noise_2d(x, y))
 			var tile_to_place: int = floori(abs_noise * 3)
 			
 			match tile_to_place:
 				0:
 					if not town_hall_tiles.has(Vector2(x, y)):
-						if not place_resource(rng, x, y, Global.TREE, tree_spawn_rate):
-							if not place_resource(rng, x, y, Global.FORAGE, forage_spawn_rate):
+						if not place_resource(rng, x, y, TREE, tree_spawn_rate):
+							if not place_resource(rng, x, y, FORAGE, forage_spawn_rate):
 								place_grass_decoration(rng, x, y)
 				1:
-					if not place_resource(rng, x, y, Global.GOLD_ORE, gold_ore_spawn_rate):
+					if not place_resource(rng, x, y, GOLD_ORE, gold_ore_spawn_rate):
 						place_sand_decoration(rng, x, y)
 				2: 
 					place_dirt_decoration(rng, x, y)
 
 func place_resource(rng: RandomNumberGenerator, x: int, y: int, RESOURCE: PackedScene, resource_spawn_rate: float) -> bool:
 	# Per non piazzare risorse sul bordo della mappa
-	if x == (width / 2) or x == -(width / 2):
+	if x == 0 or x == width:
 		return false
-	if y == (height / 2) or y == -(height / 2):
+	if y == 0 or y == height:
 		return false
 		
 	rng.randomize()
@@ -230,7 +228,8 @@ func place_resource(rng: RandomNumberGenerator, x: int, y: int, RESOURCE: Packed
 				instance.type = Global.forage_type.MUSHROOM
 
 		instance.position = Vector2(x * 64, y * 64).floor()
-		get_parent().add_child.call_deferred(instance)
+		var entity_manager: EntityManager = GameManager.get_entity_manager()
+		entity_manager.add_entity(instance, true)
 		return true
 	return false
 

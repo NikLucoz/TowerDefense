@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbocf30akbp4i"]
+
+[ext_resource type="Script" path="res://Scripts/Manager_Handlers/placing_manager.gd" id="1_nemyf"]
+[ext_resource type="Texture2D" uid="uid://r1mlo1hfryti" path="res://Assets/Tilesets/Tiny Swords/Factions/Knights/Buildings/House/House_Construction.png" id="2_cx6gr"]
+
+[node name="PlacingManager" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -24.0
+offset_top = -22.0
+offset_right = 16.0
+offset_bottom = 18.0
+script = ExtResource("1_nemyf")
+placing = null
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = 10
+y_sort_enabled = true
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 192.0
+texture = ExtResource("2_cx6gr")

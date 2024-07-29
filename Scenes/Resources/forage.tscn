@@ -10,10 +10,11 @@ startingHealth = 100.0
 defense = 0.0
 
 [node name="Forage" type="Node2D" groups=["Forage"]]
-z_index = 1
 script = ExtResource("1_p2mkm")
 drop_mushroom_max_amount = 3
 drop_berry_max_amount = 5
+berry_reset_seconds = null
+type = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 

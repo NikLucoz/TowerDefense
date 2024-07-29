@@ -1,11 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://dcxyui08olvtj"]
+[gd_scene load_steps=9 format=3 uid="uid://dcxyui08olvtj"]
 
 [ext_resource type="Script" path="res://Scripts/Manager_Handlers/game_manager.gd" id="1_d1voa"]
 [ext_resource type="Script" path="res://Scripts/Manager_Handlers/entity_manager.gd" id="3_55mvn"]
 [ext_resource type="Script" path="res://Scripts/Manager_Handlers/date_time_manager.gd" id="4_ejlhn"]
 [ext_resource type="Script" path="res://Scripts/Manager_Handlers/light_manager.gd" id="5_snbdx"]
 [ext_resource type="Texture2D" uid="uid://cpa1a671fpnd2" path="res://Assets/daynightcycle-gradient-texture.tres" id="6_g54md"]
+[ext_resource type="PackedScene" uid="uid://7x4k6taqpxdw" path="res://Scenes/fog_manager.tscn" id="7_5dyma"]
 [ext_resource type="Script" path="res://Scripts/Manager_Handlers/save_load_manager.gd" id="7_d7d4l"]
+[ext_resource type="PackedScene" uid="uid://dbocf30akbp4i" path="res://Scenes/placing_manager.tscn" id="8_068m4"]
 
 [node name="GameManager" type="Node"]
 script = ExtResource("1_d1voa")
@@ -15,7 +17,7 @@ script = ExtResource("3_55mvn")
 
 [node name="DateTimeManager" type="Node" parent="."]
 script = ExtResource("4_ejlhn")
-time_multiplier = 60.0
+time_multiplier = 120.0
 initial_hour = 12
 
 [node name="LightManager" type="Node" parent="."]
@@ -26,3 +28,10 @@ gradient = ExtResource("6_g54md")
 
 [node name="SaveLoadManager" type="Node" parent="."]
 script = ExtResource("7_d7d4l")
+
+[node name="FogManager" parent="." instance=ExtResource("7_5dyma")]
+fog_width = 2000
+fog_height = 2000
+fog_enabled = false
+
+[node name="PlacingManager" parent="." instance=ExtResource("8_068m4")]

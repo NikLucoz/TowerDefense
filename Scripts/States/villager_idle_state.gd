@@ -23,8 +23,8 @@ func enter() -> void:
 func update(delta):
 	if not moving_to_pos:
 		random_position = Vector2(
-			clampf(randf_range(actor.global_position.x - 200, actor.global_position.x + 200), -GameManager.map_size_width * 63, GameManager.map_size_width * 63),
-			clampf(randf_range(actor.global_position.y - 100, actor.global_position.y + 100), -GameManager.map_size_height * 63, GameManager.map_size_height * 63),
+			clampf(randf_range(actor.global_position.x - 200, actor.global_position.x + 200), -Global.map_size_width * 63, Global.map_size_width * 63),
+			clampf(randf_range(actor.global_position.y - 100, actor.global_position.y + 100), -Global.map_size_height * 63, Global.map_size_height * 63),
 		)
 		
 		moving_to_pos = true

@@ -41,10 +41,21 @@ func _reset_resources():
 	if config_file.has_section("resources"):
 		config_file.erase_section("resources")
 
+func _reset_villagers():
+	var config_file: ConfigFile = get_savefile()
+	if config_file.has_section("villagers"):
+		print("villager erased")
+		config_file.erase_section("villagers")
+
 func trigger_Save():
 	print("save triggered")
 	_reset_resources()
 	EventBus.emit_signal("_save_triggered", get_savefile())
+
+func save_and_quit():
+	_reset_villagers()
+	_reset_resources()
+	get_tree().quit()
 
 func save_file_to_disk():
 	var save_file = get_savefile()

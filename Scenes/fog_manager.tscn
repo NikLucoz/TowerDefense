@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://7x4k6taqpxdw"]
+
+[ext_resource type="Script" path="res://Scripts/Manager_Handlers/fog_manager.gd" id="1_mq5xq"]
+[ext_resource type="Texture2D" uid="uid://dllsjnugx6m2w" path="res://Assets/UI/Light.png" id="2_mgelm"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ue48d"]
+blend_mode = 3
+
+[node name="FogManager" type="Node"]
+script = ExtResource("1_mq5xq")
+light_texture = ExtResource("2_mgelm")
+fog_width = 200
+fog_height = 200
+
+[node name="FogTexture" type="Sprite2D" parent="."]
+z_index = 2
+material = SubResource("CanvasItemMaterial_ue48d")

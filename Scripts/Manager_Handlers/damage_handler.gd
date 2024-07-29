@@ -43,3 +43,9 @@ func destroyedInternal():
 
 func reset_to_full_health():
 	currentHealth = damageableStats.startingHealth
+
+func set_current_health(new_health):
+	if new_health <= 0:
+		return
+	
+	currentHealth = new_health

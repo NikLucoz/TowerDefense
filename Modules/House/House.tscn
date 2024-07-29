@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bi137c1gi04eb"]
+
+[ext_resource type="Script" path="res://Modules/House/house.gd" id="1_nbq7h"]
+[ext_resource type="Texture2D" uid="uid://cjpid4v3m1401" path="res://Assets/Tilesets/Tiny Swords/Factions/Knights/Buildings/House/House_Blue.png" id="2_0vv2t"]
+
+[node name="House" type="Node2D"]
+script = ExtResource("1_nbq7h")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_0vv2t")

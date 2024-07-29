@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://0skk5qop0mt0"]
+[gd_scene load_steps=16 format=3 uid="uid://0skk5qop0mt0"]
 
 [ext_resource type="Theme" uid="uid://bg8xeccqgk1g6" path="res://Assets/Theme/default_theme.tres" id="1_bimyx"]
 [ext_resource type="Script" path="res://Scripts/Manager_Handlers/UI/resource_action_manager.gd" id="1_nigpe"]
@@ -11,6 +11,9 @@
 [ext_resource type="Texture2D" uid="uid://w3m5ait77plq" path="res://Assets/UI/woodcutter_ui.png" id="8_qinfu"]
 [ext_resource type="Texture2D" uid="uid://dg1mawkclmi2r" path="res://Assets/UI/gold_finder_ui.png" id="9_d7038"]
 [ext_resource type="Texture2D" uid="uid://b70msvp4j0jff" path="res://Assets/Tilesets/Tiny Swords/Resources/Resources/G_Idle.png" id="9_kde7b"]
+[ext_resource type="Texture2D" uid="uid://cyyo7bscjpncl" path="res://Assets/UI/cancel.svg" id="12_k5wmq"]
+[ext_resource type="Texture2D" uid="uid://bivpu7p0ly3hi" path="res://Assets/UI/play-button.svg" id="13_8l7dy"]
+[ext_resource type="Texture2D" uid="uid://b442plqigxgpi" path="res://Assets/UI/fast-forward-button.svg" id="14_vkyun"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v3og3"]
 
@@ -136,14 +139,44 @@ offset_bottom = 52.0
 text = "0000000000"
 vertical_alignment = 1
 
+[node name="VillagersPanel" type="Panel" parent="Control/MarginContainer/Container/ResourceContainer"]
+custom_minimum_size = Vector2(143.47, 50)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Container/ResourceContainer/VillagersPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.073
+anchor_top = 0.317
+anchor_right = 0.4
+anchor_bottom = 0.761
+offset_left = 0.52669
+offset_top = -5.239
+offset_right = -10.388
+offset_bottom = 2.013
+grow_vertical = 2
+texture = ExtResource("6_80rxq")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Control/MarginContainer/Container/ResourceContainer/VillagersPanel"]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 21.0
+offset_right = 139.0
+offset_bottom = 50.0
+text = "002/122"
+vertical_alignment = 1
+
 [node name="DebugActionPanel" type="Panel" parent="Control/MarginContainer/Container"]
 custom_minimum_size = Vector2(100, 200)
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -346.0
-offset_bottom = 200.0
+offset_left = -493.0
+offset_top = 417.0
+offset_right = 7.0
+offset_bottom = 617.0
 grow_horizontal = 0
 
 [node name="SpawnLumberJackButton" type="Button" parent="Control/MarginContainer/Container/DebugActionPanel"]
@@ -153,11 +186,37 @@ anchor_left = 0.056
 anchor_top = 0.112
 anchor_right = 0.414
 anchor_bottom = 0.286
-offset_left = -0.192001
-offset_top = -0.0880013
-offset_right = -46.848
-offset_bottom = -0.064003
+offset_left = -0.416
+offset_top = -0.400002
+offset_right = 14.746
+offset_bottom = -0.200005
 text = "Spawn LumberJack"
+
+[node name="AddResourcesButton" type="Button" parent="Control/MarginContainer/Container/DebugActionPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.056
+anchor_top = 0.112
+anchor_right = 0.414
+anchor_bottom = 0.286
+offset_left = 235.584
+offset_top = -1.4
+offset_right = 250.746
+offset_bottom = -1.2
+text = "Add resources"
+
+[node name="RemoveResourcesButton" type="Button" parent="Control/MarginContainer/Container/DebugActionPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.056
+anchor_top = 0.112
+anchor_right = 0.414
+anchor_bottom = 0.286
+offset_left = 237.584
+offset_top = 44.6
+offset_right = 252.746
+offset_bottom = 44.8
+text = "Remove resources"
 
 [node name="SpawnForagerButton2" type="Button" parent="Control/MarginContainer/Container/DebugActionPanel"]
 layout_mode = 1
@@ -166,11 +225,24 @@ anchor_left = 0.056
 anchor_top = 0.112
 anchor_right = 0.414
 anchor_bottom = 0.286
-offset_left = -0.192001
-offset_top = 44.912
-offset_right = -31.848
-offset_bottom = 44.936
+offset_left = -0.416
+offset_top = 44.6
+offset_right = 13.746
+offset_bottom = 44.8
 text = "Spawn Forager"
+
+[node name="SpawnGoldFinderButton3" type="Button" parent="Control/MarginContainer/Container/DebugActionPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.056
+anchor_top = 0.112
+anchor_right = 0.414
+anchor_bottom = 0.286
+offset_left = -0.416
+offset_top = 88.6
+offset_right = 14.746
+offset_bottom = 88.8
+text = "Spawn GoldFinder"
 
 [node name="ResetEntitiesButton" type="Button" parent="Control/MarginContainer/Container/DebugActionPanel"]
 layout_mode = 1
@@ -179,10 +251,10 @@ anchor_left = 0.056
 anchor_top = 0.547
 anchor_right = 0.415
 anchor_bottom = 0.722
-offset_left = -0.192003
-offset_top = 0.0879898
-offset_right = -0.0220032
-offset_bottom = -0.0880127
+offset_left = -0.416
+offset_top = 45.6
+offset_right = 14.185
+offset_bottom = 45.6
 text = "Reset Entities"
 
 [node name="ActionPanel" type="TabContainer" parent="Control/MarginContainer/Container"]
@@ -539,8 +611,8 @@ layout_mode = 2
 [node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/Container/ActionPanel/Buildings"]
 layout_mode = 0
 offset_top = 34.0
-offset_right = 439.0
-offset_bottom = 240.0
+offset_right = 483.0
+offset_bottom = 190.0
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
@@ -548,6 +620,12 @@ theme_override_constants/margin_bottom = 10
 
 [node name="Control" type="Control" parent="Control/MarginContainer/Container/ActionPanel/Buildings/MarginContainer"]
 layout_mode = 2
+
+[node name="BuildHouseButton" type="Button" parent="Control/MarginContainer/Container/ActionPanel/Buildings/MarginContainer/Control"]
+layout_mode = 0
+offset_right = 138.0
+offset_bottom = 45.0
+text = "build house"
 
 [node name="Upgrades" type="TabBar" parent="Control/MarginContainer/Container/ActionPanel"]
 visible = false
@@ -591,11 +669,12 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -336.0
-offset_top = -47.0
+offset_top = -49.0
 offset_bottom = -21.0
 grow_horizontal = 0
 grow_vertical = 0
-text = "Press V to center the camera"
+text = "Press V to center the camera
+"
 
 [node name="VersionLabel" type="Label" parent="Control/MarginContainer/Container"]
 layout_mode = 1
@@ -612,6 +691,15 @@ grow_vertical = 0
 text = "v0.1"
 horizontal_alignment = 2
 
+[node name="CloseActionPanelButton" type="Button" parent="Control/MarginContainer/Container"]
+layout_mode = 0
+offset_left = 466.0
+offset_top = 656.0
+offset_right = 504.0
+offset_bottom = 694.0
+icon = ExtResource("12_k5wmq")
+expand_icon = true
+
 [node name="TimeDateLabel" type="Label" parent="Control"]
 layout_mode = 0
 offset_left = 18.0
@@ -620,9 +708,34 @@ offset_right = 625.0
 offset_bottom = 120.0
 text = "Time date label"
 
+[node name="NormalButton" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 124.0
+offset_right = 53.0
+offset_bottom = 158.0
+icon = ExtResource("13_8l7dy")
+expand_icon = true
+
+[node name="FastForwardButton" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 124.0
+offset_right = 90.0
+offset_bottom = 158.0
+icon = ExtResource("14_vkyun")
+expand_icon = true
+
 [connection signal="pressed" from="Control/MarginContainer/Container/DebugActionPanel/SpawnLumberJackButton" to="Control" method="_on_spawn_lumberJack_button_pressed"]
+[connection signal="pressed" from="Control/MarginContainer/Container/DebugActionPanel/AddResourcesButton" to="Control" method="_on_add_resources_button_pressed"]
+[connection signal="pressed" from="Control/MarginContainer/Container/DebugActionPanel/RemoveResourcesButton" to="Control" method="_on_remove_resources_button_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/Container/DebugActionPanel/SpawnForagerButton2" to="Control" method="_on_spawn_forager_button_2_pressed"]
+[connection signal="pressed" from="Control/MarginContainer/Container/DebugActionPanel/SpawnGoldFinderButton3" to="Control" method="_on_spawn_gold_finder_button_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/Container/DebugActionPanel/ResetEntitiesButton" to="Control" method="_on_reset_entities_button_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/ForagerControl/ForagerBuyButton" to="Control/MarginContainer/Container/ActionPanel" method="_on_forager_buy_button_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/WoodcutterControl/WoodcutterBuyButton" to="Control/MarginContainer/Container/ActionPanel" method="_on_woodcutter_buy_button_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/Container/ActionPanel/Villagers/MarginContainer/Control/GoldFinderControl/GoldFinderBuyButton" to="Control/MarginContainer/Container/ActionPanel" method="_on_gold_finder_buy_button_pressed"]
+[connection signal="pressed" from="Control/MarginContainer/Container/ActionPanel/Buildings/MarginContainer/Control/BuildHouseButton" to="Control/MarginContainer/Container/ActionPanel" method="_on_build_house_button_pressed"]
+[connection signal="pressed" from="Control/MarginContainer/Container/CloseActionPanelButton" to="Control/MarginContainer/Container/ActionPanel" method="_on_close_action_panel_button_pressed"]
+[connection signal="pressed" from="Control/NormalButton" to="Control" method="_on_normal_button_pressed"]
+[connection signal="pressed" from="Control/FastForwardButton" to="Control" method="_on_fast_forward_button_pressed"]

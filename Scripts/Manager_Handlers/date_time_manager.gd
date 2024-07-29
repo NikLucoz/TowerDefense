@@ -13,7 +13,22 @@ var sleep_signal_emitted = false
 var time: float
 
 func _ready():
+	connect("tree_exiting", save_on_exit)
+	EventBus.connect("_trigger_load", load_save)
 	time = (60 * 60 * 24 * 365 * initial_year) + (initial_day * 60 * 60 * 24) + (60 * 60 * initial_hour)
+
+func load_save():
+	var config_file: ConfigFile = GameManager.get_save_file()
+	if config_file.has_section("time"):
+		time = config_file.get_value("time", "value")
+
+func save_on_file(config_file: ConfigFile):
+	config_file.set_value("time", "value", time)
+	GameManager.get_save_load_manager().save_file_to_disk()
+
+func save_on_exit():
+	var config_file = GameManager.get_save_file()
+	save_on_file(config_file)
 
 func _process(delta):
 	time += delta * time_multiplier

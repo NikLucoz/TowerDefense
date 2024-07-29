@@ -15,6 +15,10 @@ func update(_delta: float) -> void:
 		transition.emit("IdleState")
 
 func _on_animation_finished():
+	if not actor.target:
+		transition.emit("IdleState")
+		return
+
 	var target: Forage = actor.target
 	if animated_sprite_2d.animation == "Harvesting":
 		if target.damage_handler.damageable or not target:

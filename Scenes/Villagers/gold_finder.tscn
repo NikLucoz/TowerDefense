@@ -1,6 +1,6 @@
 [gd_scene load_steps=27 format=3 uid="uid://bonj6gfpo34yn"]
 
-[ext_resource type="Script" path="res://Scripts/Nodes/resource_villager.gd" id="1_to3nt"]
+[ext_resource type="Script" path="res://Scripts/Nodes/resource_villager.gd" id="1_pqfe3"]
 [ext_resource type="Texture2D" uid="uid://c02tgpeh6ovw7" path="res://Assets/Tilesets/Tiny Swords/Factions/Knights/Troops/Pawn/Yellow/Pawn_Yellow.png" id="2_j4csx"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/state_machine.gd" id="3_iiilf"]
 [ext_resource type="Script" path="res://Scripts/States/villager_idle_state.gd" id="4_tlopf"]
@@ -157,11 +157,10 @@ radius = 27.0
 [node name="GoldFinder" type="CharacterBody2D"]
 z_index = 1
 y_sort_enabled = true
-script = ExtResource("1_to3nt")
-target_resource_type = 2
-max_searching_target_number = 1
-damage_to_resource = 4
+script = ExtResource("1_pqfe3")
 villager_type = 2
+target_resource_type = 2
+max_searching_target_number = 2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

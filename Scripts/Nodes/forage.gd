@@ -1,4 +1,6 @@
 class_name Forage extends Node2D
+const RESOURCE_DROP = preload("res://Scenes/Resources/resource_drop.tscn")
+
 @onready var damage_handler = $DamageHandler
 @onready var sprite_2d = $Sprite2D
 @onready var timer: Timer = $Timer
@@ -9,30 +11,11 @@ class_name Forage extends Node2D
 @export var type: Global.forage_type
 
 func _ready():
-	EventBus.connect("_save_triggered", save_on_file)
-	connect("tree_exiting", save_on_exit)
-	
 	if type == Global.forage_type.BERRY:
 		sprite_2d.texture = Global.BERRY_BUSH
 		timer.wait_time = berry_reset_seconds
 	else:
 		sprite_2d.texture = Global.MUSHROOM
-
-
-# SAVE SECTION
-
-func save_on_file(config_file: ConfigFile):
-	var node_id = str(self.name)
-	config_file.set_value("resources", node_id, {"position": position, "resource_type": Global.resource_type.FORAGE, "forage_type": type})
-	GameManager.get_save_load_manager().save_file_to_disk()
-
-func save_on_exit():
-	var config_file = GameManager.get_save_file()
-	save_on_file(config_file)
-
-
-
-
 
 func _on_damage_handler_destroyed_override():
 	if type == Global.forage_type.MUSHROOM:
@@ -46,15 +29,16 @@ func _on_damage_handler_destroyed_override():
 
 func spawn_drop(max_amount):
 	for i in range(randi_range(1, max_amount)):
-			var instance = Global.RESOURCE_DROP.instantiate()
-			instance.set_type(Global.resource_drop_type.FOOD)
-			var drop_position = Vector2(
-				randf_range(-70, 70),
-				randf_range(-70, 70)
-			)
-			instance.position = global_position + drop_position
-			get_parent().get_parent().add_child(instance)
-			GameManager.get_entity_manager().add_entity(instance)
+		var res = RESOURCE_DROP
+		var instance = res.instantiate()
+		instance.set_type(Global.resource_drop_type.FOOD)
+		var drop_position = Vector2(
+			randf_range(-70, 70),
+			randf_range(-70, 70)
+		)
+		instance.position = global_position + drop_position
+		var entity_manager: EntityManager = GameManager.get_entity_manager()
+		entity_manager.add_entity(instance, true)
 
 func _on_timer_timeout():
 	damage_handler.reset_to_full_health()
